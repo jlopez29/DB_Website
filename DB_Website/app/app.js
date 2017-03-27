@@ -4,6 +4,8 @@ var app = express();
 var dataFile = require('./data/data.json');
 var io = require('socket.io')();
 
+
+
 app.set('port', process.env.PORT || 3000 );
 app.set('appData', dataFile);
 app.set('view engine', 'ejs');
@@ -17,6 +19,8 @@ app.use(require('./routes/index'));
 app.use(require('./routes/speakers'));
 app.use(require('./routes/feedback'));
 app.use(require('./routes/login'));
+app.use(require('./routes/signup'));
+app.use(require('./routes/events'));
 app.use(require('./routes/api'));
 app.use(require('./routes/chat'));
 

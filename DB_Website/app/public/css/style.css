@@ -204,6 +204,47 @@ header .navbar-inverse .navbar-nav>li>a {
   border-bottom: none;
 }
 
+/** Events **/
+
+.events, .events-form-title {
+  font-size: 2rem;
+}
+
+.events-form {
+  margin-top: 20px;
+  font-family: "Roboto", sans-serif;
+  font-size: 1.5rem;
+}
+
+
+.events-title {
+  font-size: 1.2em;
+}
+
+.events-form-title {
+  font-size: 2em;
+}
+
+.events-name {
+  font-size: .6em;
+  font-weight: 100;
+}
+
+.events-message {
+  font-weight: 100;
+  font-size: .9em;
+  line-height: 120%;
+  margin-top: 5px;
+}
+
+.events-item {
+  border-bottom: 1px solid gray;
+  padding: 8px 0;
+}
+
+.events-item:last-of-type {
+  border-bottom: none;
+}
 
 /**  pixgrid **/
 
