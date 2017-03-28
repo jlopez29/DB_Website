@@ -11,13 +11,14 @@ app.set('appData', dataFile);
 app.set('view engine', 'ejs');
 app.set('views', 'app/views');
 
-app.locals.siteTitle = 'Roux Meetups';
+app.locals.siteTitle = 'Orlando Events';
 app.locals.allSpeakers = dataFile.speakers;
 
 app.use(express.static('app/public'));
 app.use(require('./routes/index'));
 app.use(require('./routes/speakers'));
 app.use(require('./routes/feedback'));
+app.use(require('./routes/organizations'));
 app.use(require('./routes/login'));
 app.use(require('./routes/signup'));
 app.use(require('./routes/events'));

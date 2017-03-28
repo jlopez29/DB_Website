@@ -246,6 +246,48 @@ header .navbar-inverse .navbar-nav>li>a {
   border-bottom: none;
 }
 
+/** Organizations **/
+
+.organizations, .organizations-form-title {
+  font-size: 2rem;
+}
+
+.organizations-form {
+  margin-top: 20px;
+  font-family: "Roboto", sans-serif;
+  font-size: 1.5rem;
+}
+
+
+.organizations-title {
+  font-size: 1.2em;
+}
+
+.organizations-form-title {
+  font-size: 2em;
+}
+
+.organizations-name {
+  font-size: .6em;
+  font-weight: 100;
+}
+
+.organizations-message {
+  font-weight: 100;
+  font-size: .9em;
+  line-height: 120%;
+  margin-top: 5px;
+}
+
+.organizations-item {
+  border-bottom: 1px solid gray;
+  padding: 8px 0;
+}
+
+.organizations-item:last-of-type {
+  border-bottom: none;
+}
+
 /**  pixgrid **/
 
 .pixgrid {
