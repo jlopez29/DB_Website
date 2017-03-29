@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html>
+  <body>
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=1875772412659019";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-4">
+          <center><h1 class="events-form-title">New Event</h1></center>
+          <form class="events-form">
+
+            <div class="form-group">
+              <label for="events-form-title">Title</label>
+              <input type="text" class="form-control" id="events-form-title" placeholder="Title of your event">
+            </div>                       
+
+            <div class="form-group">
+                <label for="events-form-location">Location</label>
+                <textarea type="text" placeholder="Enter your event location"  class="form-control" id="events-form-location" rows="1"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="events-form-startTime">Start Time</label>
+                <textarea type="text" placeholder="Enter your event location"  class="form-control" id="events-form-startTime" rows="1"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="events-form-endTime">End Time</label>
+                <textarea type="text" placeholder="Enter your event location"  class="form-control" id="events-form-endTime" rows="1"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="events-form-email">Email</label>
+              <input type="text" class="form-control" id="events-form-email" placeholder="Enter your email">
+            </div> 
+
+            <div class="form-group">
+                <label for="events-form-phone">Phone Number</label>
+                <textarea type="text" placeholder="Enter your phone number"  class="form-control" id="events-form-phone" rows="1"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="events-form-url">Url</label>
+                <textarea type="text" placeholder="Enter your event location"  class="form-control" id="events-form-url" rows="1"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-default pull-right">Submit</button>
+          </form>
+        </div><!-- primary -->
+        <!-- primary -->
+        <aside class="col-sm-8">
+          <div class="maincontent feedback">
+              <center><h2 class="article-title">Recent Events</h2></center>
+              <div class="events-messages"></div>
+              <div class="fb-like" data-href="http://localhost:3000/app/#/events" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+          </div>
+        </aside><!-- secondary -->
+      </div>
+    </div><!-- container -->
+  </body>
+</html>
