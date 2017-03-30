@@ -1,0 +1,55 @@
+  <header>
+    <style>
+    select.form-control {
+      width:100pt;
+    }
+    .submit{
+      margin-top: 20pt;
+    }
+    </style>
+    <title>College Events</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    
+
+    <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <ul class="nav navbar-nav">
+        <li><a href="/">Home</a></li> 
+        <li><a href="/events">Events</a></li>
+        <li><a href="/orgs">Organizations</a></li>
+        <li><a href="/universities">Universities</a></li>
+        <li><a href="/login">Login</a></li>
+        <li><a href="/register">Register</a></li>
+
+      </ul>
+      
+    
+  </nav>
+  </header>
+  
+ <body>
+  <center><h1> Register </h1>
+    <br>
+    <br>
+  <form id = "frm1" method="post">
+    Username: <input type="text" name="fname"><br>
+    Password: <input type="text" name="lname"><br><br>
+
+    <label>Account Type</label><br><br>
+    <select name = "type" class = "form-control" ng-model="user.userData.type">
+      <option value="student">Student</option>
+      <option value="admin">Admin</option>
+
+  </form>
+  <input type="submit" onclick="myFunction()" class="submit" value="Submit">
+
+  <script>
+  function myFunction()
+  {
+    document.getElementById("frm1").submit();
+  }
+  </script>
+
+</center>
+</body>
