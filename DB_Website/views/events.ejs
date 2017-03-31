@@ -18,5 +18,59 @@
   </header>
   
  <body>
-  <center><h1> Events </h1></center>
-</body>
+  <center><u><h1>Events</h1></u><center>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-4">
+          <center><h1 class="events-form-title">New Event</h1></center>
+          <form class="events-form">
+
+            <div class="form-group">
+              <label for="events-form-title">Title</label>
+              <input type="text" class="form-control" id="events-form-title" placeholder="Title of your event">
+            </div>                       
+
+            <div class="form-group">
+                <label for="events-form-location">Location</label>
+                <input type="text" placeholder="Enter your event location"  class="form-control" id="events-form-location"></input>
+            </div>
+
+            <div class="form-group">
+                <label for="events-form-startTime">Start Time</label>
+                <input type="text" placeholder="Enter your event location"  class="form-control" id="events-form-startTime"></input>
+            </div>
+
+            <div class="form-group">
+                <label for="events-form-endTime">End Time</label>
+                <input type="text" placeholder="Enter your event location"  class="form-control" id="events-form-endTime"></input>
+            </div>
+
+            <div class="form-group">
+              <label for="events-form-email">Email</label>
+              <input type="text" class="form-control" id="events-form-email" placeholder="Enter your email">
+            </div> 
+
+            <div class="form-group">
+                <label for="events-form-phone">Phone Number</label>
+                <input type="text" placeholder="Enter your phone number"  class="form-control" id="events-form-phone" ></input>
+            </div>
+
+            <div class="form-group">
+                <label for="events-form-url">Url</label>
+                <input type="text" placeholder="Enter your event location"  class="form-control" id="events-form-url"></input>
+            </div>
+
+            <button type="submit" class="btn btn-default pull-right">Submit</button>
+          </form>
+        </div><!-- primary -->
+        <!-- primary -->
+        <aside class="col-sm-8">
+          <div class="maincontent feedback">
+              <center><h2 class="article-title">Recent Events</h2></center>
+              <div class="events-messages"></div>
+          </div>
+        </aside><!-- secondary -->
+      </div>
+    </div><!-- container -->
+  </body>
+</html>

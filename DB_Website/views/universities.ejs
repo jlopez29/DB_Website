@@ -18,5 +18,42 @@
   </header>
   
  <body>
-  <center><h1> Universities </h1></center>
+  <center><u><h1> Universities </h1></u></center>
+  <div class="container">
+      <div class="row">
+        <div class="col-sm-4">
+          <center><h1 class="universities-form-title">New University</h1></center>
+          <form class="universities-form">
+            <div class="form-group">
+              <label for="universities-form-name">Name</label>
+              <input type="text" class="form-control" id="universities-form-name" placeholder="Enter the university name">
+            </div>
+
+            <div class="form-group">
+              <label for="location-form-title">Location</label>
+              <input type="text" class="form-control" id="location-form-title" placeholder="Location of the university">
+            </div>
+
+            <div class="form-group">
+                <label for="description-form-message">Description</label>
+                <input type="text" placeholder="Enter university description"  class="form-control" id="description-form-message" rows="3"></input>
+            </div>
+
+            <div class="form-group">
+                <label for="numStudents-form-message">Population</label>
+                <input type="text" placeholder="Enter student population"  class="form-control" id="numStudents-form-message"></input>
+            </div>
+
+            <button type="submit" class="btn btn-default pull-right">Submit</button>
+          </form>
+        </div><!-- primary -->
+        <!-- primary -->
+        <aside class="col-sm-8">
+          <div class="maincontent organizations">
+              <center><h2 class="article-title">Organizations</h2></center>
+              <div class="organizations-messages"></div>
+          </div>
+        </aside><!-- secondary -->
+      </div>
+    </div><!-- container -->
 </body>

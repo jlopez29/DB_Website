@@ -31,31 +31,6 @@ app.use('/universities', unis);
 app.use('/login', login);
 app.use('/register', register);
 
-app.get('/', function(req,res)
-{
-});
-
-app.get('/events', function(req,res)
-{
-});
-
-app.get('/orgs', function(req,res)
-{
-});
-
-app.get('/universities', function(req,res)
-{
-});
-
-app.get('/login', function(req,res)
-{
-});
-
-app.get('/register', function(req,res)
-{
-});
-
-
 // app.post('/register/adduser', function(req,res)
 // {
 
