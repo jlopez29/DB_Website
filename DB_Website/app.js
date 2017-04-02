@@ -10,7 +10,6 @@ var index = require('./routes/index');
 var events = require('./routes/events');
 var orgs = require('./routes/orgs');
 var unis = require('./routes/universities');
-var login = require('./routes/login');
 var register = require('./routes/register');
 var app = express();
 
@@ -30,7 +29,6 @@ app.use('/', index);
 app.use('/events', events);
 app.use('/orgs', orgs);
 app.use('/universities', unis);
-app.use('/login', login);
 app.use('/register', register);
 
 var userCount = 0;
@@ -40,19 +38,18 @@ var users = [{username: "user",
             password: 'pass',
             userID: 0}];
 
-//login POST
+// POST to login 
   app.post('/', function(req, res){
   console.log(req.body);
   
   var currentUser = verifyUser(req.body);
-  console.log('current user:' + req.body);
-  //console.log(currentUser);
+  console.log("");
 
   res.send(currentUser);
   res.end('login response');
 });
 
-//user creation POST
+// POST to register
 app.post('/register', function(req, res){
 
   console.log(req.body);
@@ -60,8 +57,6 @@ app.post('/register', function(req, res){
   var newUser = {username: req.body.username,
               password: req.body.password,
               userID:userCount};
-
-  
 
   users.push(newUser);
   
@@ -72,6 +67,12 @@ app.post('/register', function(req, res){
 
   res.end('user creation response');
 });
+
+// POST to events
+app.post('/events', function(req, res){
+  //console.log(req.body);
+});
+
 
 function verifyUser(user){
   

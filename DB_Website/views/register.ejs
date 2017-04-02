@@ -1,15 +1,31 @@
 <html ng-app="app">
-    <head>
+    <style>
+        div.div1
+        {
+            width: 500px;
+            height: 250px;
+            top: 50%;
+            left: 50%;
+            position: absolute;
+            margin-top: -150px;
+            margin-left: -250px;
+            border: 7px solid #add8e6;
+            background: #d3d3d3;
+        }
+    </style>    <head>
         <title>College Events</title>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.js"></script>
         <script type="text/javascript" src="/javascripts/app.js"></script>
         <script type="text/javascript" src="/javascripts/controllers/login-controller.js"></script>
         <script type="text/javascript" src="/javascripts/services/user-service.js"></script>    </head>
     <body>
-        <div ng-controller="LoginCtrl">
-            <label>Username: <input type="text" ng-model="user.username" /></label><br />
-            <label>Password: <input type="password" ng-model="user.password" /></label><br />
-            <input type="submit" ng-click="createUser(user)" value="Register" />
+        <div ng-controller="LoginCtrl" class = "div1">
+            <center>
+                <h1><u>Register</u></h1>
+                <label>Username: &nbsp<input type="text" ng-model="user.username" /></label><br />
+                <label>Password: &nbsp&nbsp<input type="password" ng-model="user.password" /></label><br />
+                <input type="submit" style="margin-top: 10px;" ng-click="createUser(user)" value="Register" />
+            </center>
         </div>
         
     </body>

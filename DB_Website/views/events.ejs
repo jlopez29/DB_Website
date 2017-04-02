@@ -1,7 +1,21 @@
+<html ng-app = "app">
+ 
 
- <% include partials/header.ejs %>
+ <style>
+    div.col-sm-4
+    {
+        margin-top: 5px;
+        padding-bottom: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+        margin-bottom: 50px;
+        border: 10px solid #add8e6;
+        background: #d3d3d3;
+    }
+  </style>
+
  <body>
-  <script src="http://maps.googleapis.com/maps/api/js"></script>
+  <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCYEiUAFh3-Ca91pCPgn8a-DFX7OEL8GZQ"></script>
   <script>
       function initialize() {
         var mapProp = {
@@ -13,62 +27,68 @@
       }
       google.maps.event.addDomListener(window, 'load', initialize);
     </script>
+    <script type="text/javascript" src="/javascripts/app.js"></script>
+    <script type="text/javascript" src="/javascripts/controllers/event-controller.js"></script>
+    <script type="text/javascript" src="/javascripts/services/event-service.js"></script>
+    <script type="text/javascript" src="/javascripts/services/user-service.js"></script>
+  <% include partials/header.ejs %>
   <center><u><h1>Events</h1></u><center>
     <div class="container">
       <div class="row">
         <div class="col-sm-4">
           <center><h1 class="events-form-title">New Event</h1></center>
-          <form class="events-form">
+
+          <div  ng-controller="EventCtrl">
 
             <div class="form-group">
               <label for="events-form-title">Title</label>
-              <input type="text" class="form-control" id="events-form-title" placeholder="Title of your event">
+              <input type="text" placeholder = "Enter your event title" class="form-control" ng-model="thisEvent.title" />
             </div>                       
 
             <div class="form-group">
                 <label for="events-form-location">Location</label>
-                <td><tr> <div id="googleMap" style="width:350px;height:350px;"></div> </td></tr><br>
+                <input type="text" placeholder = "Enter your event location" class="form-control" ng-model="thisEvent.Location" />
+                <div id="googleMap" style="width:250px; height: 250px;margin-top: 8px;"></div> 
             </div>
 
             <div class="form-group">
                 <label for="events-form-startTime">Start Time</label>
-                <input type="text" placeholder="Enter your event location"  class="form-control" id="events-form-startTime"></input>
+                <input type="text" placeholder = "Enter your event start time" class="form-control" ng-model="thisEvent.sTime" />
             </div>
 
             <div class="form-group">
                 <label for="events-form-endTime">End Time</label>
-                <input type="text" placeholder="Enter your event location"  class="form-control" id="events-form-endTime"></input>
+                <input type="text" placeholder = "Enter your event end time" class="form-control" ng-model="thisEvent.eTime" />
             </div>
 
             <div class="form-group">
               <label for="events-form-email">Email</label>
-              <input type="text" class="form-control" id="events-form-email" placeholder="Enter your email">
+              <input type="text" placeholder = "Enter your account email" class="form-control" ng-model="thisEvent.contactEmail" />
             </div> 
 
             <div class="form-group">
                 <label for="events-form-phone">Phone Number</label>
-                <input type="text" placeholder="Enter your phone number"  class="form-control" id="events-form-phone" ></input>
+                <input type="text" placeholder = "Enter your phone number" class="form-control" ng-model="thisEvent.contactNumber" />
             </div>
 
             <div class="form-group">
                 <label for="events-form-url">Url</label>
-                <input type="text" placeholder="Enter your event location"  class="form-control" id="events-form-url"></input>
+                <input type="text" placeholder = "Enter event URL" class="form-control" ng-model="thisEvent.url" />
             </div>
 
-            <button type="submit" class="btn btn-default pull-right">Submit</button>
-          </form>
-        </div><!-- primary -->
-          <table>
-            
-          </table>
-        <!-- primary -->
+            <input type="button" ng-click = "postEvent(thisEvent)" value = "Submit" />
+
+          </div><!-- controller -->
+        </div><!-- col -->
+      
+
         <aside class="col-sm-8">
           <div class="maincontent feedback">
               <center><h2 class="article-title">Recent Events</h2></center>
-              <div class="events-messages"></div>
+              <div ng-bind-html="message"></div>
           </div>
-        </aside><!-- secondary -->
-      </div>
+        </aside><!-- secondary -->        
+      </div><!-- row -->  
     </div><!-- container -->
   </body>
 </html>
