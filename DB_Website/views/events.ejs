@@ -1,23 +1,18 @@
-  <header>
-    <title>College Events</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-    <nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-      <ul class="nav navbar-nav">
-        <li><a href="/">Home</a></li>
-        <li><a href="/events">Events</a></li>
-        <li><a href="/orgs">Organizations</a></li>
-        <li><a href="/universities">Universities</a></li>
-        <li><a href="/login">Login</a></li>
-        <li><a href="/register">Register</a></li>
-      </ul>
-      
-    
-  </nav>
-  </header>
-  
+ <% include partials/header.ejs %>
  <body>
+  <script src="http://maps.googleapis.com/maps/api/js"></script>
+  <script>
+      function initialize() {
+        var mapProp = {
+        center:new google.maps.LatLng(29.6436, -82.3549),
+        zoom:15,
+        mapTypeId:google.maps.MapTypeId.ROADMAP
+        };
+        var map=new google.maps.Map(document.getElementById('googleMap'),mapProp);
+      }
+      google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
   <center><u><h1>Events</h1></u><center>
     <div class="container">
       <div class="row">
@@ -32,7 +27,7 @@
 
             <div class="form-group">
                 <label for="events-form-location">Location</label>
-                <input type="text" placeholder="Enter your event location"  class="form-control" id="events-form-location"></input>
+                <td><tr> <div id="googleMap" style="width:350px;height:350px;"></div> </td></tr><br>
             </div>
 
             <div class="form-group">
@@ -63,6 +58,9 @@
             <button type="submit" class="btn btn-default pull-right">Submit</button>
           </form>
         </div><!-- primary -->
+          <table>
+            
+          </table>
         <!-- primary -->
         <aside class="col-sm-8">
           <div class="maincontent feedback">
