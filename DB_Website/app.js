@@ -23,7 +23,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
- app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/events', events);
@@ -37,6 +37,9 @@ var password = 'pass';
 var users = [{username: "user",
             password: 'pass',
             userID: 0}];
+
+var events =  [];
+var comments = [];
 
 // POST to login 
   app.post('/', function(req, res){
@@ -70,7 +73,27 @@ app.post('/register', function(req, res){
 
 // POST to events
 app.post('/events', function(req, res){
-  //console.log(req.body);
+
+  events.push(req.body);
+
+  if(req.body.type == "comment")
+  {
+    console.log('commenting');
+    comments.push({author:req.body.author, comment:req.body.comment});
+
+    console.log(comments);
+
+    res.send(comments);
+  }
+  else
+  {
+    console.log("Added to events: " + req.body.eventName);
+
+    console.log(req.body.type);
+
+    res.send(events[0]);
+  }
+  
 });
 
 

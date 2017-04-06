@@ -1,4 +1,4 @@
-angular.module('app', ['userService'])
+angular.module('appZ', ['userService'])
     .controller('LoginCtrl', ['$scope', 'userService', '$http', '$window', '$location',
          function LoginCtrl($scope, userService, $http, $window, $location) {
          
