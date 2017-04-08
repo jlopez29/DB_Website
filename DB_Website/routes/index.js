@@ -12,12 +12,6 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'College Life' });
 });
 
-router.post('/', function(req, res, next) {
 
-  //res.sendFile("../views/index.ejs");
-  //res.render('index', { title: 'College Life' });
-  console.log(req.body.username);
-  console.log(req.body.password);
-});
 
 module.exports = router;
