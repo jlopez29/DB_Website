@@ -13,27 +13,49 @@
             border: 7px solid #add8e6;
             background: #d3d3d3;
         }
+        input, label {
+            display:block;
+        }
     </style>
     <head>
         <title>College Events</title>
         
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+
+        <!-- Latest compiled JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
     </head>
     <body>
     <center>
 
-        <h1>Login</h1>
+        <h1><u>Login</u></h1><br>
 
         
         <form class="form"  action="/" method="post">              
             <div class="form-group">
-                <LABEL>Username: <br></LABEL>
-                <input type="text" name="username" id="username"><br>
-                <LABEL>Password: <br></LABEL>
-                <input type="password" name="password" id="password"><br>
-            </div><br>
-            <button type="submit" class="btn btn-default">Login</button>
-            
+                <LABEL>Username: </LABEL>
+                <input type="text" name="username" id="username">
+                <LABEL>Password: </LABEL>
+                <input type="password" name="password" id="password">
+            </div>
+            <button type="submit" class="btn btn-success">Login</button>
         </form>
+        
+        <form class= "form" action="/register" method="get">
+
+            <button type="submit" class="btn btn-info btn-large">Register</button>
+
+        </form>
+
+        
+
+        
+
+
 
         
 
