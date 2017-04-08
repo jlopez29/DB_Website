@@ -1,94 +1,62 @@
-<html ng-app = "app">
- 
+<html>
 
- <style>
-    div.col-sm-4
-    {
-        margin-top: 5px;
-        padding-bottom: 10px;
-        padding-left: 10px;
-        padding-right: 10px;
-        margin-bottom: 50px;
-        border: 10px solid #add8e6;
-        background: #d3d3d3;
-    }
-  </style>
+<style>
+  input, label,button {
+            width: 40%;
+        }
+</style>
+
+
+<head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+
+        <!-- Latest compiled JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  </head>
 
  <body>
-  <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCYEiUAFh3-Ca91pCPgn8a-DFX7OEL8GZQ"></script>
-  <script>
-      function initialize() {
-        var mapProp = {
-        center:new google.maps.LatLng(29.6436, -82.3549),
-        zoom:15,
-        mapTypeId:google.maps.MapTypeId.ROADMAP
-        };
-        var map=new google.maps.Map(document.getElementById('googleMap'),mapProp);
-      }
-      google.maps.event.addDomListener(window, 'load', initialize);
-    </script>
-    <script type="text/javascript" src="/javascripts/app.js"></script>
-    <script type="text/javascript" src="/javascripts/controllers/event-controller.js"></script>
-    <script type="text/javascript" src="/javascripts/services/event-service.js"></script>
-    <script type="text/javascript" src="/javascripts/services/user-service.js"></script>
-  <% include partials/header.ejs %>
-  <center><u><h1>Events</h1></u><center>
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-4">
-          <center><h1 class="events-form-title">New Event</h1></center>
-
-          <div  ng-controller="EventCtrl">
-
+  <center><u><h1>Events</h1></u><center></br></br>
+    <div class = "col-sm-4">
+        <center><h2> New Event </h2></center></br>
+        <form class="form"  action="/events" method="post">              
             <div class="form-group">
-              <label for="events-form-title">Title</label>
-              <input type="text" placeholder = "Enter your event title" class="form-control" ng-model="thisEvent.title" />
-            </div>                       
+                <LABEL>Name: </LABEL>
+                <input type="text" name="name" id="name"><br>
+                <LABEL>Description: </LABEL>
+                <input type="text" name="description" id="description"><br>
+                <LABEL>Time: </LABEL>
+                <input type="text" name="time" id="time"><br>
+                <LABEL>Date: </LABEL>
+                <input type="text" name="date" id="date"><br>
+                <LABEL>Location: </LABEL>
+                <input type="text" name="location" id="location"><br>
+                <LABEL>Contact Phone: </LABEL>
+                <input type="text" name="number" id="number"><br>
+                <LABEL>Contact Email: </LABEL>
+                <input type="text" name="email" id="email"><br>
 
-            <div class="form-group">
-                <label for="events-form-location">Location</label>
-                <input type="text" placeholder = "Enter your event location" class="form-control" ng-model="thisEvent.Location" />
-                <div id="googleMap" style="width:250px; height: 250px;margin-top: 8px;"></div> 
             </div>
+            <br><br>
+            <button type="submit" class="btn btn-success">Create</button>
+            
+        </form>
+    </div>
 
-            <div class="form-group">
-                <label for="events-form-startTime">Start Time</label>
-                <input type="text" placeholder = "Enter your event start time" class="form-control" ng-model="thisEvent.sTime" />
+    <aside>
+        <h2>Recent Events</h2>
+            <div class = "events">
+                <h3><%= eventName ? eventName : '' %></h3>
+                <%= eventDesc ? eventDesc : '' %><br>
+                <%= eventTime ? eventTime : '' %><br>
+                <%= eventDate ? eventDate : '' %><br>
+                <%= eventLocation ? eventLocation: '' %><br>
+                <%= eventPhone ? eventPhone : '' %><br>
+                <%= eventEmail ? eventEmail : '' %><br>
             </div>
+    </aside>
 
-            <div class="form-group">
-                <label for="events-form-endTime">End Time</label>
-                <input type="text" placeholder = "Enter your event end time" class="form-control" ng-model="thisEvent.eTime" />
-            </div>
-
-            <div class="form-group">
-              <label for="events-form-email">Email</label>
-              <input type="text" placeholder = "Enter your account email" class="form-control" ng-model="thisEvent.contactEmail" />
-            </div> 
-
-            <div class="form-group">
-                <label for="events-form-phone">Phone Number</label>
-                <input type="text" placeholder = "Enter your phone number" class="form-control" ng-model="thisEvent.contactNumber" />
-            </div>
-
-            <div class="form-group">
-                <label for="events-form-url">Url</label>
-                <input type="text" placeholder = "Enter event URL" class="form-control" ng-model="thisEvent.url" />
-            </div>
-
-            <input type="button" ng-click = "postEvent(thisEvent)" value = "Submit" />
-
-          </div><!-- controller -->
-        </div><!-- col -->
-      
-
-        <aside class="col-sm-8">
-          <div class="maincontent feedback">
-              <center><h2 class="article-title">Recent Events</h2></center>
-              <div ng-bind-html="message"></div>
-          </div>
-        </aside><!-- secondary -->        
-      </div><!-- row -->  
-    </div><!-- container -->
   </body>
 </html>

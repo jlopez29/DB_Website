@@ -5,11 +5,14 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-
+var mysql = require('mysql');
+var connection = require("express-myconnection");
 
 var index = require('./routes/index');
 var register = require('./routes/register');
-var users = require('./routes/users');
+var events = require('./routes/events');
+var orgs = require('./routes/orgs');
+var universities = require('./routes/universities');
 
 var userStorage = 
 [{
@@ -21,13 +24,7 @@ var userStorage =
 
 }];
 
-
-var mysql = require('mysql');
-var connection = require("express-myconnection");
-
 var app = express();
-
-var mysql = require('mysql');
  
 var connection = mysql.createConnection(
     {
@@ -45,7 +42,14 @@ app.use(session({
   name: "",
   username: "",
   password: "",
-  type: ""
+  type: "",
+  eventName: "",
+  eventDesc: "",
+  eventTime: "",
+  eventDate: "",
+  eventLocation: "",
+  contactPhone: "",
+  contactEmail: " "
 }));
  
 //connection.connect();
@@ -67,9 +71,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
-app.use('/users', users);
 app.use('/register',register);
-
+app.use('/events',events);
+app.use('/orgs',orgs);
+app.use('/universities',universities);
 
 
 app.post('/', function(req, res, next) 
@@ -113,7 +118,7 @@ var currUser =
 
     console.log("User: " + currUser.username + " logged in");
 
-    res.redirect("users");
+    res.redirect("events");
   }
   else
   {
@@ -123,6 +128,31 @@ var currUser =
 
   
   
+});
+
+app.post('/events', function(req, res, next) 
+{
+  console.log(req.body);
+  req.session.eventName = req.body.name;
+  req.session.eventDesc = req.body.description;
+  req.session.eventTime = req.body.time;
+  req.session.eventDate = req.body.date;
+  req.session.eventLocation = req.body.location;
+  req.session.eventPhone = req.body.number;
+  req.session.eventEmail = req.body.email;
+  res.redirect('/events');
+});
+
+app.post('/orgs', function(req, res, next) 
+{
+  console.log(req.body);
+  res.redirect('/orgs');
+});
+
+app.post('/universities', function(req, res, next) 
+{
+  console.log(req.body);
+  res.redirect('/universities');
 });
 
 app.post('/register', function(req, res, next) 
@@ -149,7 +179,7 @@ app.post('/register', function(req, res, next)
     console.log("New user added");
     console.log(userStorage);
 
-    res.redirect("users");
+    res.redirect("events");
   }
   else
   {

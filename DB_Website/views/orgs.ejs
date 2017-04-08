@@ -1,0 +1,45 @@
+<html>
+
+<style>
+  input, label,button {
+            width: 20%;
+        }
+</style>
+
+
+<head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+
+        <!-- Latest compiled JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  </head>
+
+ <body>
+  <center><u><h1>Organizations</h1></u><center></br></br>
+    <form class="form"  action="/orgs" method="post">              
+            <div class="form-group">
+                <LABEL>Organization Name: </LABEL>
+                <input type="text" name="name" id="name"><br>
+                <LABEL>Admin email: </LABEL>
+                <input type="text" name="adminEmail" id="adminEmail"><br>
+                <LABEL>User 1: </LABEL>
+                <input type="text" name="usr1Email" id="usr1Email"><br>
+                <LABEL>User 2: </LABEL>
+                <input type="text" name="usr2Email" id="usr2Email"><br>
+                <LABEL>User 3: </LABEL>
+                <input type="text" name="usr3Email" id="usr3Email"><br>
+                <LABEL>User 4: </LABEL>
+                <input type="text" name="usr4Email" id="usr4Email"><br>
+                <LABEL>User 5: </LABEL>
+                <input type="text" name="usr5Email" id="usr5Email"><br>
+
+            </div>
+            <br><br>
+            <button type="submit" class="btn btn-success">Create</button>
+            
+        </form>
+  </body>
+</html>

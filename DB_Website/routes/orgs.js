@@ -5,7 +5,7 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
 	
   console.log(req.session.username);
-  res.render('users',{username:req.session.username});
+  res.render('orgs',{username:req.session.username});
   
 });
 

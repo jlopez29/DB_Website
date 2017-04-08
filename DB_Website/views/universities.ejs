@@ -1,0 +1,39 @@
+<html>
+
+<style>
+  input, label,button,textarea {
+            width: 20%;
+        }
+</style>
+
+
+<head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+
+        <!-- Latest compiled JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  </head>
+
+ <body>
+  <center><u><h1>Universities</h1></u><center></br></br>
+    <form class="form"  action="/universities" method="post">              
+            <div class="form-group">
+                <LABEL>University Name: </LABEL>
+                <input type="text" name="name" id="name"><br>
+                <LABEL>Location: </LABEL>
+                <input type="text" name="location" id="location"><br>
+                <LABEL>Description: </LABEL>
+                <input type="text" name="description" id="description"> </input><br>
+                <LABEL>Student Population: </LABEL>
+                <input type="text" name="population" id="population"><br>
+
+            </div>
+            <br><br>
+            <button type="submit" class="btn btn-success">Create</button>
+            
+        </form>
+  </body>
+</html>
