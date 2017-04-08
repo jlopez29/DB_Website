@@ -4,7 +4,6 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var session = require('express-session');
 
 
 var index = require('./routes/index');
@@ -16,20 +15,18 @@ var connection = require("express-myconnection");
 
 var app = express();
 
-app.use(connection(mysql, {
-	host: "localhost",
-	user: "root",
-	password: "",
-	database: "mydb"
-},'request'));
-
-app.use(session({
-	secret: "fuggettuhhbouudett",
-	saveUninitialized: true,
-	resave: true,
-	username: "",
-	password: ""
-}));
+var mysql = require('mysql');
+ 
+var connection = mysql.createConnection(
+    {
+      host     : 'localhost',
+      user     : 'root',
+      password : '',
+      database : 'mydb',
+    }
+);
+ 
+connection.connect();
 
 
 // view engine setup
@@ -51,17 +48,34 @@ app.use('/', index);
 app.use('/users', users);
 
 
-app.post('/', function(req, res, next) {
 
+app.post('/', function(req, res, next) {
   //res.sendFile("../views/index.ejs");
   //res.render('index', { title: 'College Life' });
-  console.log(req.body.username);
-  console.log(req.body.password);
+  
+var queryString = 'SELECT * FROM user';
+ 
+connection.query(queryString, function(err, rows, fields) {
+    if (err) throw err;
+ 
+    for(var i in rows){
+    	if (rows[i].User_ID == req.body.username){ 
+    		break; 
+    	}
 
-  req.session.username = req.body.username;
-  req.session.password = req.body.password;
-
-  res.redirect("users");
+    }
+    if (rows[i].User_ID == req.body.username && rows[i].password == req.body.password){
+		console.log( rows[i].password);
+    }
+		
+    
+    
 });
+
+  
+  
+});
+
+
 
 module.exports = app;
