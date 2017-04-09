@@ -5,8 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-var mysql = require('mysql');
-var connection = require("express-myconnection");
+
 
 var index = require('./routes/index');
 var register = require('./routes/register');
@@ -14,17 +13,13 @@ var events = require('./routes/events');
 var orgs = require('./routes/orgs');
 var universities = require('./routes/universities');
 
-var userStorage = 
-[{
 
-  name: "name",
-  username: "user",
-  password: "pass",
-  type: "student"
-
-}];
+var mysql = require('mysql');
+var connection = require("express-myconnection");
 
 var app = express();
+
+var mysql = require('mysql');
  
 var connection = mysql.createConnection(
     {
@@ -42,7 +37,7 @@ app.use(session({
   name: "",
   username: "",
   password: "",
-  type: "",
+  type: "",  
   eventName: "",
   eventDesc: "",
   eventTime: "",
@@ -77,57 +72,127 @@ app.use('/orgs',orgs);
 app.use('/universities',universities);
 
 
+
 app.post('/', function(req, res, next) 
 {
   //res.sendFile("../views/index.ejs");
   //res.render('index', { title: 'College Life' });
   
-  var queryString = 'SELECT * FROM user';
- 
+  var queryString = "SELECT * FROM user WHERE User_ID='"+req.body.username+"'";
+  var currUser = {
+    username: req.body.username,
+    password: req.body.password
+  };
+
   connection.query(queryString, function(err, rows, fields) 
   {
       if (err) throw err;
    
-      for(var i in rows)
+      if (rows[0].User_ID == currUser.username && rows[0].password == currUser.password)
       {
-      	if (rows[i].User_ID == req.body.username)
-        { 
-      		break; 
-      	}
+  		  req.session.username = req.body.username;
+        req.session.password = req.body.password;
 
+        console.log("User: " + currUser.username + " logged in");
+
+        res.redirect("events");
       }
-      if (rows[i].User_ID == req.body.username && rows[i].password == req.body.password)
-      {
-  		  console.log( rows[i].password);
-      }
-  		
       
-      
+      else{
+        console.log("***** Username and/or Password not found *****");
+        res.redirect("/");
+      }   
   });
+  
+});
 
-var currUser = 
+
+
+
+
+
+app.post('/register', function(req, res, next) 
+{
+  //res.sendFile("../views/index.ejs");
+  //res.render('index', { title: 'College Life' });
+  var newUser = 
             {
+              name: req.body.name,
               username: req.body.username,
-              password: req.body.password
+              password: req.body.password,
+              type: req.body.type,
+              level:0
             };
 
-  if(verifyUser(currUser) == 1)
+  if (newUser.type=="Student")
+      newUser.level=0;
+  else if (newUser.type=="superAdmin")
+      newUser.level=2;
+
+  var checkquery = "SELECT COUNT(*) AS User_ID FROM user WHERE User_ID='"+req.body.username+"'";
+  var regins1 = "INSERT INTO User (User_ID,name,password,level) VALUES ('"+newUser.username+"','"+newUser.name+"','"+newUser.password+"','"+newUser.level+"');";
+  // var regins1 = "INSERT INTO User (User_ID,password,level) VALUES ('"+newUser.username+"','"+newUser.name+"','"+newUser.password+"','"+newUser.level+"');";
+  var regins2 = "INSERT INTO Student (User_ID) VALUES ('"+newUser.username+"');";
+  var regins3 = "INSERT INTO Super_Admin (User_ID) VALUES ('"+newUser.username+"');";
+
+
+  connection.query(checkquery, function(err, rows, fields) 
   {
-    req.session.username = req.body.username;
-    req.session.password = req.body.password;
+    if (err) 
+    {
+      console.error(err);
+      return;
+    }
+    else
+    {
+      if(rows[0].User_ID==0)
+      {
+        connection.query(regins1, function(err, rows, fields) 
+        {
+            if (err) throw err;
+     
+        });
 
-    console.log("User: " + currUser.username + " logged in");
 
-    res.redirect("events");
-  }
-  else
-  {
-    console.log("***** Username and/or Password not found *****");
-    res.redirect("/");
-  }
+        if(newUser.level==0)
+        {
+          connection.query(regins2, function(err, rows, fields) 
+          {
+              if (err) throw err;
+       
+          });
+                      req.session.name = req.body.name;
+                      req.session.username = req.body.username;
+                      req.session.password = req.body.password;
+                      req.session.type = req.body.type;
+                      console.log("New user added");
+                      res.redirect("events");
+        }
+        else if(newUser.level==2)
+        {
+          connection.query(regins3, function(err, rows, fields) 
+          {
+              if (err) throw err;
+       
+          });
+          req.session.name = req.body.name;
+          req.session.username = req.body.username;
+          req.session.password = req.body.password;
+          req.session.type = req.body.type;
+          console.log("New user added");
+          res.redirect("events");
+        }    
 
+      }
+      else
+      {
+        console.log("***** User " + newUser.username + " already exists *****");    
+        res.redirect("register");
+      }
   
-  
+    }
+      
+  });
 });
 
 app.post('/events', function(req, res, next) 
@@ -155,95 +220,9 @@ app.post('/universities', function(req, res, next)
   res.redirect('/universities');
 });
 
-app.post('/register', function(req, res, next) 
-{
-  //res.sendFile("../views/index.ejs");
-  //res.render('index', { title: 'College Life' });
-  var newUser = 
-            {
-              name: req.body.name,
-              username: req.body.username,
-              password: req.body.password,
-              type: req.body.type
-            };
-  
 
-  if(userExists(newUser) == 0)
-  {
-    req.session.name = req.body.name;
-    req.session.username = req.body.username;
-    req.session.password = req.body.password;
-    req.session.type = req.body.type;
 
-    userStorage.push(newUser);
-    console.log("New user added");
-    console.log(userStorage);
 
-    res.redirect("events");
-  }
-  else
-  {
-    console.log("***** User " + newUser.username + " already exists *****");    
-    res.redirect("register");
-  }
-    
-
-  
-  console.log(req.body.name); 
-  console.log(req.body.username);
-  console.log(req.body.password);
-  console.log(req.body.type);
-  var queryString = 'SELECT * FROM user';
- 
-  connection.query(queryString, function(err, rows, fields) 
-  {
-      if (err) throw err;
-   
-      for(var i in rows)
-      {
-        if (rows[i].User_ID == req.body.username)
-        { 
-          break; 
-        }
-
-      }
-      if (rows[i].User_ID == req.body.username && rows[i].password == req.body.password)
-      {
-        console.log( rows[i].password);
-      }
-      
-      
-      
-  });
-  
-  
-});
-
-function userExists(newUser)
-{
-  for(var i = 0; i < userStorage.length; i++)
-  {
-    if(newUser.username == userStorage[i].username)
-    {      
-      return 1;   
-    }  
-  }
-
-  return 0;
-}
-
-function verifyUser(newUser)
-{
-  for(var i = 0; i < userStorage.length; i++)
-  {
-    if((newUser.username == userStorage[i].username) && (newUser.password == userStorage[i].password))
-    {      
-      return 1;   
-    }  
-  }
-
-  return 0;
-}
 
 
 module.exports = app;
