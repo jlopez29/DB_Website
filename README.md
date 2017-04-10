@@ -1,6 +1,7 @@
 [![N|Solid](http://fo.ucf.edu/sites/default/files/images/Events.jpg)](https://nodesource.com/products/nsolid)
 [![N|Solid](http://www.ucf.edu/brand/files/2016/07/UCF-Tab-Signature-lockup_horizontal-KG-7406-300x72.png)](https://nodesource.com/products/nsolid)
 # COP4710 ~ College Event Website
+
 ### Developed by:
   - Jesse Lopez (Frontend)
   - Alex Kinlen (Backend)
@@ -46,8 +47,8 @@ Install the dependencies and devDependencies and start the server.
 ```sh
 
 # for db, install xampp run mysql and apache
-    - configure db with steps below
-    - import eventApp.sql to phpMyAdmin in a db named mydb
+    - configure db as stated below
+    - import eventDB.sql to phpMyAdmin in a db named mydb
     
 # for node web app, run in root directory
     $ npm install
