@@ -1,0 +1,32 @@
+<html>
+
+<%= include partials/header.ejs %>
+
+
+ <body>
+  <center><u><h1>Event Details</h1></u><center></br></br>
+
+          <div class = "viewEvent">
+                    
+              <h3>
+                Name: <%= events[0].Name %>
+              </h3>
+       
+                <h4>
+                  <le>Description: <%= events[0].Description %></le>                  
+                  <le>Time: <%= events[0].Time %></le>       
+                  <le>Date: <%= events[0].Date %></le>
+                <h4>  
+
+                <h6>                        
+                  <le>Location: <%= events[0].Location %></le>                                           
+                  <le>Contact Phone: <%= events[0].Phone %></le>                
+                  <le>Contact Email: <%= events[0].Email %></le>   
+                </h6>
+
+
+              <br>  
+
+          </div> 
+  </body>
+</html>
