@@ -11,27 +11,51 @@
 
  <body>
   <center><u><h1>Organizations</h1></u><center></br></br>
-    <form class="form"  action="/orgs" method="post">              
-            <div class="form-group">
-                <LABEL>Organization Name: </LABEL>
-                <input type="text" name="name" id="name"><br>
-                <LABEL>Admin email: </LABEL>
-                <input type="text" name="adminEmail" id="adminEmail"><br>
-                <LABEL>User 1: </LABEL>
-                <input type="text" name="usr1Email" id="usr1Email"><br>
-                <LABEL>User 2: </LABEL>
-                <input type="text" name="usr2Email" id="usr2Email"><br>
-                <LABEL>User 3: </LABEL>
-                <input type="text" name="usr3Email" id="usr3Email"><br>
-                <LABEL>User 4: </LABEL>
-                <input type="text" name="usr4Email" id="usr4Email"><br>
-                <LABEL>User 5: </LABEL>
-                <input type="text" name="usr5Email" id="usr5Email"><br>
+
+    <div class = "col-sm-4">
+
+        <center><h2> New Organization </h2></center></br>
+
+        <form class="form"  action="/orgs" method="post">              
+                <div class="form-group">
+                    <LABEL>Organization Name: </LABEL>
+                    <input type="text" name="name" id="name"><br>
+                    <LABEL>Admin email: </LABEL>
+                    <input type="text" name="adminEmail" id="adminEmail"><br>
+                    <LABEL>User 1: </LABEL>
+                    <input type="text" name="usr1Email" id="usr1Email"><br>
+                    <LABEL>User 2: </LABEL>
+                    <input type="text" name="usr2Email" id="usr2Email"><br>
+                    <LABEL>User 3: </LABEL>
+                    <input type="text" name="usr3Email" id="usr3Email"><br>
+                    <LABEL>User 4: </LABEL>
+                    <input type="text" name="usr4Email" id="usr4Email"><br>
+                    <LABEL>User 5: </LABEL>
+                    <input type="text" name="usr5Email" id="usr5Email"><br>
+
+                </div>
+                <br><br>
+                <button type="submit" class="btn btn-success">Create</button>
+                
+        </form>
+    </div>
+
+    <aside>
+        <h2>Posted Organizations</h2>
+            <div class = "organizations">
+                <table>
+                    <% for(var i=0; i < orgs.length; i++) { %>
+                       <tr>
+                            <td>Name: <%= orgs[i].Name %></td>
+                       </tr>
+                       <tr>
+                            <td>Admin: <%= orgs[i].Admin %><br><br></td>
+                       </tr>
+                    <% } %>
+                </table>
 
             </div>
-            <br><br>
-            <button type="submit" class="btn btn-success">Create</button>
-            
-        </form>
+    </aside>
+
   </body>
 </html>

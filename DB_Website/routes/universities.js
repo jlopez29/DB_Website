@@ -1,11 +1,49 @@
 var express = require('express');
 var router = express.Router();
 
+
+var mysql = require('mysql');
+var connection = require("express-myconnection");
+
+var connection = mysql.createConnection(
+    {
+      host     : 'localhost',
+      user     : 'root',
+      password : '',
+      database : 'mydb',
+    }
+);
+
 /* GET users listing. */
 router.get('/', function(req, res, next) {
 	
   console.log(req.session.username);
-  res.render('universities',{username:req.session.username});
+
+  var queryString = "SELECT * FROM university";
+
+  connection.query(queryString, function(err, rows, fields) 
+  {
+      if (err) 
+      {      	
+      	throw err;
+      	setTimeout(function(){
+          console.log(rows);
+          res.render('universities',{unis: rows});
+        },100);
+      }
+      	
+      else
+      {
+      	setTimeout(function(){
+          console.log(rows);
+          res.render('universities',{unis: rows});
+        },100);
+      }
+      	
+  });
+
+
+  
   
 });
 

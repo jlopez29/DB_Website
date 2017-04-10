@@ -1,9 +1,11 @@
 <html>
 
 <style>
-  input, label,button {
+  input, label,button
+   {
             width: 40%;
-        }
+       }
+    
 </style>
 
 <%= include partials/header.ejs %>
@@ -26,7 +28,7 @@
                 <LABEL>Location: </LABEL>
                 <input type="text" name="location" id="location"><br>
                 <LABEL>Contact Phone: </LABEL>
-                <input type="text" name="number" id="number"><br>
+                <input type="text" name="phone" id="phone"><br>
                 <LABEL>Contact Email: </LABEL>
                 <input type="text" name="email" id="email"><br>
 
@@ -38,17 +40,46 @@
     </div>
 
     <aside>
-        <h2>Recent Events</h2>
+        <h2>Posted Events</h2>
             <div class = "events">
-                <h3><%= eventName ? eventName : '' %></h3>
-                <%= eventDesc ? eventDesc : '' %><br>
-                <%= eventTime ? eventTime : '' %><br>
-                <%= eventDate ? eventDate : '' %><br>
-                <%= eventLocation ? eventLocation: '' %><br>
-                <%= eventPhone ? eventPhone : '' %><br>
-                <%= eventEmail ? eventEmail : '' %><br>
+                <table>
+                    <% for(var i=0; i < events.length; i++) { %>
+                       <tr>
+                            <td>Name: <%= events[i].Name %></td>
+                       </tr>
+
+                       <tr>
+                            <td>Description: <%= events[i].Description %></td>
+                       </tr>
+
+                       <tr>
+                            <td>Time: <%= events[i].Time %></td>
+                       </tr>
+
+                       <tr>
+                            <td>Date: <%= events[i].Date %></td>
+                       </tr>
+
+                       <tr>
+                            <td>Location: <%= events[i].Location %></td>
+                       </tr>
+
+                       <tr>
+                            <td>Contact Phone: <%= events[i].Phone %></td>
+                       </tr>
+
+                       <tr>
+                            <td>Contact Email: <%= events[i].Email %><br><br></td>
+                       </tr>                      
+
+
+                    <% } %>
+                
+                </table>
+
             </div>
     </aside>
+
 
   </body>
 </html>

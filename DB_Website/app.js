@@ -18,8 +18,6 @@ var mysql = require('mysql');
 var connection = require("express-myconnection");
 
 var app = express();
-
-var mysql = require('mysql');
  
 var connection = mysql.createConnection(
     {
@@ -37,14 +35,7 @@ app.use(session({
   name: "",
   username: "",
   password: "",
-  type: "",  
-  eventName: "",
-  eventDesc: "",
-  eventTime: "",
-  eventDate: "",
-  eventLocation: "",
-  contactPhone: "",
-  contactEmail: " "
+  type: ""
 }));
  
 //connection.connect();
@@ -197,27 +188,53 @@ app.post('/register', function(req, res, next)
 
 app.post('/events', function(req, res, next) 
 {
+
+  var addEvent = "INSERT INTO event (Name,Description,Time,Date,Location,Phone,Email) VALUES ('"+req.body.name+"','"+req.body.description+"','"+req.body.time+"','"+req.body.date+"','"+req.body.location+"','"+req.body.phone+"','"+req.body.email+"');";
+
+  connection.query(addEvent, function(err, rows, fields) 
+  {
+    if (err) 
+    {
+      console.error(err);
+      return;
+    }
+  });
+
   console.log(req.body);
-  req.session.eventName = req.body.name;
-  req.session.eventDesc = req.body.description;
-  req.session.eventTime = req.body.time;
-  req.session.eventDate = req.body.date;
-  req.session.eventLocation = req.body.location;
-  req.session.eventPhone = req.body.number;
-  req.session.eventEmail = req.body.email;
   res.redirect('/events');
 });
 
 app.post('/orgs', function(req, res, next) 
 {
+  var addOrg = "INSERT INTO rso (Name,Admin) VALUES ('"+req.body.name+"','"+req.body.adminEmail+"');";
+
+  connection.query(addOrg, function(err, rows, fields) 
+  {
+    if (err) 
+    {
+      console.error(err);
+      return;
+    }
+  });
   console.log(req.body);
   res.redirect('/orgs');
 });
 
 app.post('/universities', function(req, res, next) 
 {
+  var addUni = "INSERT INTO university (University_Name,Location,Description,Student_Population) VALUES ('"+req.body.name+"','"+req.body.location+"','"+req.body.description+"','"+req.body.population+"');";
+
+  connection.query(addUni, function(err, rows, fields) 
+  {
+    if (err) 
+    {
+      console.error(err);
+      return;
+    }
+  });
+
   console.log(req.body);
-  res.redirect('/universities');
+  res.redirect('universities');
 });
 
 

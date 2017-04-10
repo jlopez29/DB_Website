@@ -2,7 +2,7 @@
 
 <style>
   input, label,button,textarea {
-            width: 20%;
+            width: 50%;
         }
 </style>
 
@@ -11,7 +11,9 @@
 
  <body>
   <center><u><h1>Universities</h1></u><center></br></br>
-    <form class="form"  action="/universities" method="post">              
+    <div class = "col-sm-4">
+      <center><h2> New University </h2></center></br>
+        <form class="form"  action="/universities" method="post">              
             <div class="form-group">
                 <LABEL>University Name: </LABEL>
                 <input type="text" name="name" id="name"><br>
@@ -27,5 +29,29 @@
             <button type="submit" class="btn btn-success">Create</button>
             
         </form>
+    </div>
+
+    <aside>
+        <h2>Posted Universities</h2>
+            <div class = "universities">
+                <table>
+                    <% for(var i=0; i < unis.length; i++) { %>
+                       <tr>
+                            <td>Name: <%= unis[i].University_Name %></td>
+                       </tr>
+                       <tr>
+                            <td>Location: <%= unis[i].Location %></td>
+                       </tr>
+                       <tr>
+                            <td>Description: <%= unis[i].Description %></td>
+                       </tr>
+                       <tr>
+                            <td>Student Population: <%= unis[i].Student_Population %><br><br></td>
+                       </tr>
+                    <% } %>
+                </table>
+
+            </div>
+    </aside>
   </body>
 </html>

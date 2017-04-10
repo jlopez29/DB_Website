@@ -1,19 +1,44 @@
 var express = require('express');
 var router = express.Router();
 
+var mysql = require('mysql');
+var connection = require("express-myconnection");
+
+var connection = mysql.createConnection(
+    {
+      host     : 'localhost',
+      user     : 'root',
+      password : '',
+      database : 'mydb',
+    }
+);
+
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-	
-  console.log(req.session.username);
-  res.render('events',
+
+  var queryString = "SELECT * FROM event";
+
+  connection.query(queryString, function(err, rows, fields) 
   {
-  	eventName:req.session.eventName,
-  	eventDesc:req.session.eventDesc,
-  	eventTime:req.session.eventTime,
-  	eventDate:req.session.eventDate,
-  	eventLocation:req.session.eventLocation,
-  	eventPhone:req.session.eventPhone,
-  	eventEmail:req.session.eventEmail
+      if (err) 
+      {       
+        throw err;
+        setTimeout(function(){
+          console.log(rows);
+          res.render('events',{events: rows});
+        },100);
+        
+      }
+        
+      else
+      {
+        setTimeout(function(){
+          console.log(rows);
+          res.render('events',{events: rows});
+        },100);
+        
+      }
+        
   });
   
 });
