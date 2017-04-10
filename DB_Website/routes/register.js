@@ -6,7 +6,7 @@ var bodyParser = require('body-parser');
 router.get('/', function(req, res, next) {
 
   //res.sendFile("../views/index.ejs");
-  res.render('register', { title: 'College Life' });
+  res.render('register', { message: "" });
 });
 
 

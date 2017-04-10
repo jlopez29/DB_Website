@@ -24,7 +24,7 @@
         display: block;
       }
 
-      .lcontainer{
+      .lContainer{
         margin-top: 2%;
         margin-left: 30%;
         margin-right: 30%;
@@ -38,6 +38,10 @@
         border-radius: 10px;
 
         background-color: #d3d3d3;
+      }
+
+      .aContainer{
+        color: red;
       }
       </style>
 
@@ -71,6 +75,12 @@
     <body>
     <center>        
 
+        <div class = "aContainer" >
+          <h1> <% if (message.length > 1) %>
+                <%=    message   %>
+          </h1>
+        </div>
+
         <div class = "lContainer">
 
             <h1><u>Login</u></h1><br>
@@ -93,7 +103,7 @@
 
             </form>
 
-        </div>
+        </div>        
 
     </center>
         

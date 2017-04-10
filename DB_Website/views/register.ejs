@@ -21,7 +21,7 @@
         bottom: 0;
       }
       input, label{
-        display: block;
+        width: 40%;
       }
 
       .lcontainer{
@@ -38,6 +38,9 @@
         border-radius: 10px;
 
         background-color: #d3d3d3;
+      }
+      .aContainer{
+        color: red;
       }
       </style>
 
@@ -69,6 +72,12 @@
     </header>
     <body>
     <center>
+
+        <div class = "aContainer" >
+            <h1> <% if (message.length > 1) %>
+                  <%=    message   %>
+            </h1>
+          </div>
 
         <div class = "lContainer">
 

@@ -9,7 +9,7 @@ router.use(bodyParser.json());
 router.get('/', function(req, res, next) {
 
   //res.sendFile("../views/index.ejs");
-  res.render('index', {username:req.session.username});
+  res.render('index',{message: ""});
 });
 
 

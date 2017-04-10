@@ -77,22 +77,34 @@ app.post('/', function(req, res, next)
 
   connection.query(queryString, function(err, rows, fields) 
   {
-      if (err) throw err;
-   
-      if (rows[0].User_ID == currUser.username && rows[0].password == currUser.password)
+      if (err)
       {
-  		  req.session.username = req.body.username;
-        req.session.password = req.body.password;
+        console.log("***** DB Error *****");
+        res.render("index",{message: "*** DB Error ***"});
+        //throw err;
+      } 
+      if(rows != "")
+      {
 
-        console.log("User: " + currUser.username + " logged in");
+        if (rows[0].User_ID == currUser.username && rows[0].password == currUser.password)
+        {
+          req.session.username = req.body.username;
+          req.session.password = req.body.password;
 
-        res.redirect("events");
+          console.log("User: " + currUser.username + " logged in");
+
+          res.redirect("events");
+        }
+
       }
-      
-      else{
+      else
+      {
+
         console.log("***** Username and/or Password not found *****");
-        res.redirect("/");
-      }   
+        res.render("index",{message: "*** Username and/or Password not found ***"});
+
+      }
+   
   });
   
 });
@@ -177,8 +189,8 @@ app.post('/register', function(req, res, next)
       }
       else
       {
-        console.log("***** User " + newUser.username + " already exists *****");    
-        res.redirect("register");
+        console.log("***** User " + newUser.username + " already exists *****");  
+        res.render("register",{message: "***** User " + newUser.username + " already exists *****"});  
       }
   
     }
