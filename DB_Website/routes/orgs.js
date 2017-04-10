@@ -16,30 +16,37 @@ var connection = mysql.createConnection(
 /* GET users listing. */
 router.get('/', function(req, res, next) {
 	
-  //console.log(req.session.username);
-
-  var queryString = "SELECT * FROM rso";
-
-  connection.query(queryString, function(err, rows, fields) 
+  if(req.session.username)
   {
-      if (err) 
-      {      	
-      	throw err;
-      	setTimeout(function(){
-          console.log(rows);
-          res.render('orgs',{orgs: rows});
-        },100);
-      }
-      	
-      else
+
+    console.log("User: " + req.session.username + " logged in");
+    var queryString = "SELECT * FROM rso";
+
+    setTimeout(function()
+    {
+
+      connection.query(queryString, function(err, rows, fields) 
       {
-      	setTimeout(function(){
-          console.log(rows);
-          res.render('orgs',{orgs: rows});
-        },100);
-      }
-      	
-  });
+          if (err) 
+          {      	
+          	throw err;
+            //console.log(rows);
+            res.render('orgs',{orgs: rows});
+          }
+          	
+          else
+          {
+            //console.log(rows);
+            res.render('orgs',{orgs: rows});
+          }        	
+      });
+    },200);
+  }
+  else
+  {
+    console.log("user not logged in");
+    res.redirect('/');
+  }
   
 });
 

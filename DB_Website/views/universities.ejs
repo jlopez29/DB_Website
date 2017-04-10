@@ -1,9 +1,51 @@
 <html>
 
 <style>
-  input, label,button,textarea {
-            width: 50%;
-        }
+  input, label,button,textarea 
+  {
+    width: 40%;
+  }  
+  .newUni{
+    width: 40%;
+    height: 425px;
+    min-width: 450px;
+    float: left;
+
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-top: 5px;
+    margin-left: 40px;
+
+    border: 2px;
+    border-style: solid;
+    border-color: #7ec0ee;
+    border-radius: 10px;
+
+    background-color: #d3d3d3;
+  }
+  .viewUnis{    
+    width: 40%;
+    height: 425px;
+    min-width: 450px;
+    float: right;
+
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-top: 5px;
+    margin-right: 40px;
+
+    border: 2px;
+    border-style: solid;
+    border-color: #7ec0ee;
+    border-radius: 10px;
+
+    background-color: #d3d3d3;
+
+    overflow: auto;
+  }
+  .container{
+    margin-bottom: 80px;
+  }
 </style>
 
 
@@ -11,47 +53,55 @@
 
  <body>
   <center><u><h1>Universities</h1></u><center></br></br>
-    <div class = "col-sm-4">
-      <center><h2> New University </h2></center></br>
-        <form class="form"  action="/universities" method="post">              
-            <div class="form-group">
-                <LABEL>University Name: </LABEL>
-                <input type="text" name="name" id="name"><br>
-                <LABEL>Location: </LABEL>
-                <input type="text" name="location" id="location"><br>
-                <LABEL>Description: </LABEL>
-                <input type="text" name="description" id="description"> </input><br>
-                <LABEL>Student Population: </LABEL>
-                <input type="text" name="population" id="population"><br>
+    <div class = "container">
+      <div class = "newUni">
+        <center><h2> New University </h2></center></br>
+          <form class="form"  action="/universities" method="post">              
+              <div class="form-group">
+                  <LABEL>University Name: </LABEL>
+                  <input type="text" name="name" id="name"><br>
+                  <LABEL>Location: </LABEL>
+                  <input type="text" name="location" id="location"><br>
+                  <LABEL>Description: </LABEL>
+                  <input type="text" name="description" id="description"> </input><br>
+                  <LABEL>Student Population: </LABEL>
+                  <input type="text" name="population" id="population"><br>
 
-            </div>
-            <br><br>
-            <button type="submit" class="btn btn-success">Create</button>
-            
-        </form>
-    </div>
+              </div>
+              <br><br>
+              <button type="submit" class="btn btn-success">Create</button>
+              
+          </form> 
+      </div>
 
-    <aside>
-        <h2>Posted Universities</h2>
+      <div class = "viewUnis">
+
+        <aside>
+          <h2>Posted Universities</h2>
             <div class = "universities">
-                <table>
-                    <% for(var i=0; i < unis.length; i++) { %>
-                       <tr>
-                            <td>Name: <%= unis[i].University_Name %></td>
-                       </tr>
-                       <tr>
-                            <td>Location: <%= unis[i].Location %></td>
-                       </tr>
-                       <tr>
-                            <td>Description: <%= unis[i].Description %></td>
-                       </tr>
-                       <tr>
-                            <td>Student Population: <%= unis[i].Student_Population %><br><br></td>
-                       </tr>
-                    <% } %>
-                </table>
+              <ul>
+                <% for(var i=0; i < unis.length; i++) { %>
+
+                 <h3>
+                    <li>Name: <%= unis[i].University_Name %></li>
+                 </h3>
+
+                 <h4>
+                    <le>Location: <%= unis[i].Location %></le>        
+
+                    <le>Description: <%= unis[i].Description %></le>                       
+
+                    <le>Student Population: <%= unis[i].Student_Population %><br><br></le>
+                 </h4>
+
+                <% } %>
+              </ul>
 
             </div>
-    </aside>
+        </aside>
+
+      </div>  
+
+    </div>
   </body>
 </html>
