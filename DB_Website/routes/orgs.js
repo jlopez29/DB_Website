@@ -31,13 +31,13 @@ router.get('/', function(req, res, next) {
           {      	
           	throw err;
             //console.log(rows);
-            res.render('orgs',{orgs: rows});
+            res.render('orgs',{orgs: rows,message: ""});
           }
           	
           else
           {
             //console.log(rows);
-            res.render('orgs',{orgs: rows});
+            res.render('orgs',{orgs: rows,message: ""});
           }        	
       });
     },200);

@@ -1,9 +1,13 @@
 <html>
 
 <style>
-  input, label,button
+  label,button
   {
     width: 40%;
+  }
+  .test
+  {
+    min-width: 60px;
   }
   .newEvent{
     width: 40%;
@@ -45,8 +49,20 @@
   }
   .container{
     margin-bottom: 80px;
+  }    
+  .top{
+    float: right;
+    min-width: 100px;
+
+    border: 2px;
+    border-style: solid;
+    border-color: #7ec0ee;
+    border-radius: 10px;
+
   }
-    
+  .topT{
+    display: block;
+  }
 </style>
 
 <%= include partials/header.ejs %>
@@ -54,6 +70,7 @@
 
  <body>
   <center><u><h1>Events</h1></u><center></br></br>
+    
     <div class = "container">
 
       <div class = "newEvent">
@@ -86,8 +103,34 @@
         </form>
     </div>
 
+    <div class="top" >
+      <h5><u>Filters</u></h5>
+      <center>
+
+          <label class = "topT">
+            <form method = "post" action = "/filtersPub">
+              <input class="test" type="submit" value= "Public"name="selection">
+            </form>
+          </label>
+
+          <label class = "topT">
+            <form method = "post" action = "/filtersPri">
+              <input class="test" type="submit" value= "Private" name="selection">
+            </form>
+          </label>
+
+          <label class = "topT">
+            <form <form method = "post" action = "/filterRso">
+              <input class="test" type="submit" value= "RSO" name="selection">
+            </form>
+          </label>
+
+      </center>
+    </div>
+            
           <div class = "viewEvents">
             <h2><u>Posted Events</u></h2><br>
+            
               <ul>
                   <% for(var i=0; i < events.length; i++) { %>
                     

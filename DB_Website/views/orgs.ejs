@@ -46,6 +46,9 @@
   .container{
     margin-bottom: 80px;
   }
+  .aContainer{
+        color: red;
+      }
 </style>
 
 
@@ -53,6 +56,12 @@
 
  <body>
   <center><u><h1>Organizations</h1></u><center><br><br>
+
+    <div class = "aContainer" >
+          <h1> <% if (message.length > 1) %>
+                <%=    message   %>
+          </h1>
+    </div>
 
     <div class = "container">
 
@@ -87,7 +96,8 @@
         <div class = "viewOrgs">        
 
             <aside>
-                <h2><u>Posted Organizations</u></h2><br>
+                <h2><u>Posted Organizations</u></h2><br>                
+
                     <div class = "organizations">
                         <ul>
                             <% for(var i=0; i < orgs.length; i++) { %>

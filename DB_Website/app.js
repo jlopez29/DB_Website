@@ -332,6 +332,26 @@ app.post('/orgs', function(req, res, next)
 {
   var addOrg = "INSERT INTO rso (Name,Admin) VALUES ('"+req.body.name+"','"+req.body.adminEmail+"');";
 
+  console.log("******  START ORG  ******");
+
+  var adminEmail = req.body.adminEmail;
+  var usr1Email = req.body.usr1Email;
+  var usr2Email = req.body.usr2Email;
+  var usr3Email = req.body.usr3Email;
+  var usr4Email = req.body.usr4Email;
+  var usr5Email = req.body.usr5Email
+
+  adminEmail = adminEmail.replace(/.*@/, "");
+  usr1Email = usr1Email.replace(/.*@/, "");
+  usr2Email = usr2Email.replace(/.*@/, "");
+  usr3Email = usr3Email.replace(/.*@/, "");
+  usr4Email = usr4Email.replace(/.*@/, "");
+  usr5Email = usr5Email.replace(/.*@/, "");
+
+  console.log(adminEmail);
+
+  console.log("******  END ORG  ******");
+
   connection.query(addOrg, function(err, rows, fields) 
   {
     if (err) 
@@ -341,7 +361,34 @@ app.post('/orgs', function(req, res, next)
     }
   });
   console.log(req.body);
-  res.redirect('/orgs');
+
+    var queryString = "SELECT * FROM rso";
+
+    var orgData;
+    connection.query(queryString, function(err, rows, fields) 
+    {
+          if (err) 
+          {       
+            throw err;
+            //console.log(rows);
+            res.render('orgs',{orgs: rows,message: ""});
+          }
+            
+          else
+          {
+            if((adminEmail == usr1Email) && (adminEmail == usr2Email) && (adminEmail == usr3Email) && (adminEmail == usr4Email) && (adminEmail == usr5Email))
+            {
+              console.log("emails match");
+              res.render('orgs',{orgs: rows,message:""});
+            }    
+            else
+            {
+              console.log("emails don't match");
+              res.render('orgs',{orgs: rows,message:"email domain doesn't match"});
+            }
+          }         
+      });
+  
 });
 
 
