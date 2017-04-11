@@ -287,6 +287,41 @@ app.post('/events/:eventid', function(req, res, next) {
 
 });
 
+/* GET users listing. */
+app.post('/deletecomment/:id', function(req, res, next) {
+
+  console.log("********* START **********");
+
+  console.log(req.url);
+
+  var str = req.url
+
+  var eventid = str.replace("/deletecomment/","");
+
+  console.log(eventid);
+
+  console.log(req.session.username);
+
+  console.log(req.body);
+
+  console.log("********* END **********");
+
+  var delEventComment = "DELETE FROM comments WHERE id =" + eventid ;
+
+  connection.query(delEventComment, function(err, rows, fields) 
+  {
+    if (err) 
+    {
+      console.error(err);
+      return;
+    }
+  });
+
+  res.redirect(req.get('referer'));
+
+
+
+});
 
 
 

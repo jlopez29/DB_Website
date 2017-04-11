@@ -59,10 +59,26 @@
     margin-bottom: 150px;
     float: right;
   }
+  .top{
+    min-width: 350px;
+
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-top: 5px;
+    margin-left: 40px;
+    margin-right: 40px;
+
+    border: 2px;
+    border-style: solid;
+    border-color: #7ec0ee;
+    border-radius: 10px;
+
+    background-color: #d3d3d3;
+  }
   .left{
-    width: 40%;
-    height: 425px;
-    min-width: 450px;
+    width: 30%;
+    height: 400px;
+    min-width: 350px;
     float: left;
 
     padding-top: 10px;
@@ -79,15 +95,17 @@
   }
 
   .right{    
-    width: 40%;
-    height: 425px;
-    min-width: 450px;
+    width: 30%;
+    height: 400px;
+    min-width: 350px;
     float: right;
 
     padding-top: 10px;
     padding-bottom: 10px;
     margin-top: 5px;
     margin-right: 40px;
+
+
 
     border: 2px;
     border-style: solid;
@@ -107,6 +125,7 @@
        <center><u><h1>Event Details</h1></u><center></br>
 
           <div class = "viewEvent">
+            <div class = "top">
                     
               <h3>
                 Name: <%= events[0].Name %>
@@ -123,7 +142,7 @@
                   <le>Contact Phone: <%= events[0].Phone %></le>                
                   <le>Contact Email: <%= events[0].Email %></le>   
                 </h6>
-
+              </div>
               <div class="left">
 
                 <center><u><h1>Add Review</h1></u><center></br>
@@ -145,8 +164,8 @@
                 
                   <textarea name="comments" cols="30" rows="3" class="html-text-box" placeholder = "Comment here..."></textarea>
                   <br><br>
-                  <input type="submit" value="Submit" class="html-text-box">
-                  <input type="reset" value="Reset" class="html-text-box">            
+                  <input type="submit" value="Submit" class="btn btn-success">
+                  <input type="reset" value="Reset" class="btn btn-danger">            
                 </form>
 
               </div>
@@ -157,15 +176,18 @@
 
                 <ul>
                   <% for(var i=0; i < comments.length; i++) { %>
-                     <h3>
-                          <li>Username: <%= comments[i].owner %></li>
-                     </h3>
-                     <h4>
-                          <le>Stars: <%= comments[i].rating %></le>
-                     </h4>
-                     <h4>
-                          <le>Comment: <%= comments[i].commentString %><br><br></le>
-                     </h4>
+                    <form method = "post" action = "/deletecomment/<%= comments[i].id %>">  
+                      <input type="submit" class="btn btn-danger" value="X" style = "float: left;">
+                         <h3>
+                              <le>Username: <%= comments[i].owner %></le>
+                         </h3>
+                         <h4>
+                              <le>Stars: <%= comments[i].rating %></le>
+                         </h4>
+                         <h4>
+                              <le>Comment: <%= comments[i].commentString %><br><br></le>
+                         </h4>
+                    </form>
 
                   <% } %>
                 </ul>
