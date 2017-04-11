@@ -55,15 +55,15 @@ router.get('/', function(req, res, next) {
 });
 
 /* GET users listing. */
-router.get('/:eventname', function(req, res, next) {
+router.get('/:eventid', function(req, res, next) {
 
   console.log(req.url);
 
   var str = req.url
 
-  var eventName = str.replace("/","");
+  var eventid = str.replace("/","");
 
-  console.log(eventName);
+  console.log(eventid);
 
 
 
@@ -71,27 +71,49 @@ router.get('/:eventname', function(req, res, next) {
   {
     
     console.log("User: " + req.session.username + " logged in");
-    var queryString = "SELECT * FROM event WHERE Event_ID='"+eventName+"'";
+    
 
     setTimeout(function()
-    {
+    { 
+      var queryComments = "SELECT * FROM comments WHERE Event_ID='"+eventid+"'";
+      var coms;
 
-      connection.query(queryString, function(err, rows, fields) 
+      connection.query(queryComments, function(err, rows, fields) 
       {
-        console.log(rows);
-          if (err) 
-          {       
-            throw err;
-            //console.log(rows);
-            res.render('viewevent',{events: rows});          
-          }
-            
-          else
-          {
-            //console.log(rows);
-            res.render('viewevent',{events: rows});          
-          }          
+        if (err) 
+          throw err;                   
+        else
+        {
+          coms = rows;
+        }
+
       });
+
+      setTimeout(function()
+      { 
+
+        console.log("COMS: " + coms);
+      },200);
+
+        var queryEvent = "SELECT * FROM event WHERE Event_ID='"+eventid+"'";
+
+        connection.query(queryEvent, function(err, rows, fields) 
+        {
+          console.log(rows);
+          console.log("COMS: " + JSON.stringify(coms));
+            if (err) 
+            {       
+              throw err;
+              //console.log(rows);
+              res.render('viewevent',{events: rows,comments: coms});          
+            }
+              
+            else
+            {
+              //console.log(rows);
+              res.render('viewevent',{events: rows,comments: coms});          
+            }          
+        });
     },200);
   }
   else

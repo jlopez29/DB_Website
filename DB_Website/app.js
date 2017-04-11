@@ -126,7 +126,8 @@ app.post('/register', function(req, res, next)
               username: req.body.username,
               password: req.body.password,
               type: req.body.type,
-              level:0
+              level:0,
+              email: req.body.email
             };
 
   if (newUser.type=="Student")
@@ -134,12 +135,12 @@ app.post('/register', function(req, res, next)
   else if (newUser.type=="superAdmin")
       newUser.level=2;
 
-  var checkquery = "SELECT COUNT(*) AS User_ID FROM user WHERE User_ID='"+req.body.username+"'";
-  var regins1 = "INSERT INTO User (User_ID,name,password,level) VALUES ('"+newUser.username+"','"+newUser.name+"','"+newUser.password+"','"+newUser.level+"');";
+  var checkquery = "SELECT COUNT(*) AS User_ID FROM user WHERE User_ID='"+req.body.username+"' OR email='"+req.body.email+"';";
+  var regins1 = "INSERT INTO User (User_ID,name,password,level,email) VALUES ('"+newUser.username+"','"+newUser.name+"','"+newUser.password+"','"+newUser.level+"','"+newUser.email+"');";
   // var regins1 = "INSERT INTO User (User_ID,password,level) VALUES ('"+newUser.username+"','"+newUser.name+"','"+newUser.password+"','"+newUser.level+"');";
   var regins2 = "INSERT INTO Student (User_ID) VALUES ('"+newUser.username+"');";
   var regins3 = "INSERT INTO Super_Admin (User_ID) VALUES ('"+newUser.username+"');";
-
+  var enrollquery = "INSERT INTO enrolled (User_ID,University_Name) VALUES ('"+req.body.username+"','"+req.body.uni+"');";
 
   connection.query(checkquery, function(err, rows, fields) 
   {
@@ -170,6 +171,10 @@ app.post('/register', function(req, res, next)
                       req.session.username = req.body.username;
                       req.session.password = req.body.password;
                       req.session.type = req.body.type;
+                      connection.query(enrollquery,function(err,rows,fields)
+                      {
+                          if(err) throw err;
+                      });
                       console.log("New user added");
                       res.redirect("events");
         }
@@ -178,6 +183,10 @@ app.post('/register', function(req, res, next)
           connection.query(regins3, function(err, rows, fields) 
           {
               if (err) throw err;
+              connection.query(enrollquery,function(err,rows,fields)
+                      {
+                          if(err) throw err;
+                      });
        
           });
           req.session.name = req.body.name;
@@ -191,14 +200,24 @@ app.post('/register', function(req, res, next)
       }
       else
       {
-        console.log("***** User " + newUser.username + " already exists *****");  
-        res.render("register",{message: "***** User " + newUser.username + " already exists *****"});  
+        console.log("***** Username " + newUser.username + " already exists *****"); 
+        var queryString = "SELECT * FROM university";
+        connection.query(queryString, function(err, rows, fields) 
+        {
+          res.render("register",{message: "***** Username " + newUser.username + " already exists OR e-mail is already in use *****",uni : rows});  
+        });
       }
   
     }
       
   });
 });
+
+
+
+
+
+
 
 app.post('/events', function(req, res, next) 
 {
@@ -218,6 +237,62 @@ app.post('/events', function(req, res, next)
   res.redirect('/events');
 });
 
+
+
+
+
+
+/* GET users listing. */
+app.post('/events/:eventid', function(req, res, next) {
+
+  console.log(req.url);
+
+  var str = req.url
+
+  var eventid = str.replace("/events/","");
+
+  console.log(eventid);
+
+  console.log(req.session.username);
+
+  console.log(req.body);
+
+  var rating;
+
+  if(req.body.rating1)
+    rating = 1;
+  else if(req.body.rating2)
+    rating = 2;
+  else if(req.body.rating3)
+    rating = 3;
+  else if(req.body.rating4)
+    rating = 4;
+  else
+    rating = 5;
+
+  var addEventComment = "INSERT INTO comments (Event_ID,owner,commentString,rating) VALUES ('"+eventid+"','"+req.session.username+"','"+req.body.comments+"','"+rating+"');";
+
+  connection.query(addEventComment, function(err, rows, fields) 
+  {
+    if (err) 
+    {
+      console.error(err);
+      return;
+    }
+  });
+
+  res.redirect(req.get('referer'));
+
+
+
+});
+
+
+
+
+
+
+
 app.post('/orgs', function(req, res, next) 
 {
   var addOrg = "INSERT INTO rso (Name,Admin) VALUES ('"+req.body.name+"','"+req.body.adminEmail+"');";
@@ -234,24 +309,82 @@ app.post('/orgs', function(req, res, next)
   res.redirect('/orgs');
 });
 
+
+
+
+
+
+
+
+
+
 app.post('/universities', function(req, res, next) 
 {
   var addUni = "INSERT INTO university (University_Name,Location,Description,Student_Population) VALUES ('"+req.body.name+"','"+req.body.location+"','"+req.body.description+"','"+req.body.population+"');";
+  var checkPriv = "SELECT COUNT(*) AS User_ID FROM super_admin WHERE User_ID = '"+req.session.username+"';";
+  var queryString = "SELECT * FROM university";
 
-  connection.query(addUni, function(err, rows, fields) 
-  {
-    if (err) 
+
+    connection.query(checkPriv, function(err, rows, fields) 
     {
-      console.error(err);
-      return;
-    }
-  });
+      if( err) 
+        console.log("error");
 
-  console.log(req.body);
-  res.redirect('universities');
+      if(rows[0].User_ID>0)
+      {
+
+          connection.query(addUni, function(err, rows, fields) 
+          {
+            if (err) 
+            {
+              console.error(err);
+              return;
+            }
+          });
+
+          console.log(req.body);
+          connection.query(queryString, function(err, rows, fields) 
+          {
+            if (err) 
+            {       
+              throw err;
+              //console.log(rows);
+              res.render('universities',{message: "",unis: rows});
+            }
+              
+            else
+            {
+              //console.log(rows);
+              res.render('universities',{message: "",unis: rows});
+            }
+            
+          });
+
+      }
+      else
+      {
+        console.log("you dont have enough badges to add this.");
+        connection.query(queryString, function(err, rows, fields) 
+        {
+          if (err) 
+          {       
+            throw err;
+            //console.log(rows);
+            res.render('universities',{message: "",unis: rows});
+          }
+            
+          else
+          {
+            //console.log(rows);
+            res.render("universities",{message: "***** You require Super Admin Privileges to create a new University *****",unis: rows});
+          }
+            
+        });
+        
+      }
+
+    });
 });
-
-
 
 
 

@@ -88,14 +88,26 @@
                 <div class="form-group">
                     <LABEL>Name: </LABEL>
                     <input type="text" name="name" id="name"><br>
+                    <LABEL>E-mail: </LABEL>
+                    <input type="text" name="email" id="email"><br>
                     <LABEL>Username: </LABEL>
                     <input type="text" name="username" id="username"><br>
                     <LABEL>Password: </LABEL>
                     <input type="password" name="password" id="password"><br><br>
-                    <LABEL>Account: </LABEL>
+                    <LABEL>Account Type: </LABEL>
                     <select name = "type">
                         <option value = "student"> Student </option>
                         <option value = "superAdmin"> Super Admin </option>
+                    </select><br>
+                    <LABEL>University: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</LABEL>
+                    <select name = "uni">
+                        <%for(var i =0; i < uni.length;i++){%>
+
+                            <option value= "<%=uni[i].University_Name%>"><%=uni[i].University_Name%>
+                          
+
+                          <% } %>
+                        
                     </select>
 
                 </div>
