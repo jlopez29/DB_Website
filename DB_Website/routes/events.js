@@ -57,6 +57,8 @@ router.get('/', function(req, res, next) {
 /* GET users listing. */
 router.get('/:eventid', function(req, res, next) {
 
+  console.log("id");
+
   console.log(req.url);
 
   var str = req.url
@@ -114,6 +116,135 @@ router.get('/:eventid', function(req, res, next) {
               res.render('viewevent',{events: rows,comments: coms});          
             }          
         });
+    },200);
+  }
+  else
+  {
+    console.log("user not logged in");
+    res.redirect('/');
+  }
+
+  
+  
+});
+
+
+router.get('/filter/private', function(req, res, next) {
+  console.log("oooooooooooooo");
+  console.log(req.originalUrl)
+
+  if(req.session.username)
+  {
+    
+    console.log("User: " + req.session.username + " logged in");
+
+    var queryUser = "SELECT * FROM enrolled WHERE User_ID='" + req.session.username +"';";
+
+    var university;
+
+      connection.query(queryUser, function(err, rows, fields) 
+        {
+            if (err) 
+            {       
+              throw err;
+              console.log(rows);
+            }
+              
+            else
+            {
+              university = rows[0].University_Name;
+              
+
+              console.log(rows[0].University_Name);
+            }          
+        });
+
+    
+
+    setTimeout(function()
+    {
+      var queryString = "SELECT * FROM event WHERE University_Name='"+university+"';";
+      console.log("uni: " + university);
+
+      connection.query(queryString, function(err, rows, fields) 
+      {
+          if (err) 
+          {       
+            throw err;
+            //console.log(rows);
+            res.render('events',{events: rows});          
+          }
+            
+          else
+          {
+            //console.log(rows);
+            res.render('events',{events: rows});          
+          }          
+      });
+    },200);
+  }
+  else
+  {
+    console.log("user not logged in");
+    res.redirect('/');
+  }
+
+  
+  
+});
+
+router.get('/filter/rso', function(req, res, next) {
+  console.log("oooooooooooooo");
+  console.log(req.originalUrl)
+
+  if(req.session.username)
+  {
+    
+    console.log("User: " + req.session.username + " logged in");
+
+    var queryUser = "SELECT * FROM member_of WHERE User_ID='" + req.session.username +"';";
+
+    var rso;
+
+      connection.query(queryUser, function(err, rows, fields) 
+        {
+            if (err) 
+            {       
+              throw err;
+              console.log(rows);
+            }
+              
+            else
+            {
+              rso = rows[0].RSO_ID;
+              
+
+              console.log(rows[0].RSO_ID);
+            }          
+        });
+
+    
+
+    setTimeout(function()
+    {
+      var queryString = "SELECT * FROM event WHERE RSO_ID='"+rso+"';";
+      console.log("rso_id: " + rso);
+
+      connection.query(queryString, function(err, rows, fields) 
+      {
+          if (err) 
+          {       
+            throw err;
+            //console.log(rows);
+            res.render('events',{events: rows});          
+          }
+            
+          else
+          {
+            //console.log(rows);
+            res.render('events',{events: rows});          
+          }          
+      });
     },200);
   }
   else
