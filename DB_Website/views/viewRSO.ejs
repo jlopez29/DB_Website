@@ -8,6 +8,8 @@
 
           <div class = "viewRSO">
                     
+              <form method = "post" action = " ">
+                    
               <h3>
                 Name: <%= orgs[0].Name %>
               </h3>
@@ -15,9 +17,19 @@
                 Admin: <%= orgs[0].Admin %>
               </h5>
 
-              <input type="button" name="theButton" value="Join">
+              <% if(joinStatus == 1) { %>
 
-              <br>  
+                <input type="submit" name="theButton" value="Join">
+
+              <% } %>   
+              <% if(joinStatus == 0) { %>
+
+                <input type="submit" name="theButton" value="Leave">
+                
+              <% } %> 
+
+              <br> 
+            </form>  
           </div> 
   </body>
 </html>

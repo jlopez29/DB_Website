@@ -20,26 +20,64 @@ router.get('/', function(req, res, next) {
 
   if(req.session.username)
   {
-    
-    console.log("User: " + req.session.username + " logged in");
-    var queryString = "SELECT * FROM event";
+    console.log(req.url);
+    var queryUser = "SELECT * FROM enrolled WHERE User_ID='" + req.session.username +"';";
 
+    var university;
+
+    connection.query(queryUser, function(err, rows, fields) 
+    {
+        if (err) 
+        {       
+          console.log(err);
+        }            
+        else
+        {
+          university = rows[0];
+
+          console.log("Rows: " + rows);
+        }          
+    });
+
+    console.log("User: " + req.session.username + " logged in");
+    var queryString = "SELECT * FROM event WHERE approved=1";
+    var RSOString = "SELECT * FROM rso WHERE Admin = '"+req.session.username+"';";
     setTimeout(function()
     {
+      console.log(university.University_Name);
 
-      connection.query(queryString, function(err, rows, fields) 
+      if(req.url == "/?selection=Private")
+      {
+        queryString = "SELECT * FROM event WHERE University_Name='"+university.University_Name+"';";
+        console.log("filter:private");
+      }    
+      else if(req.url == "/?selection=RSO")
+      {
+        var queryString = "SELECT * FROM event";
+        console.log("filter:rso");
+      }    
+      else
+      {
+        var queryString = "SELECT * FROM event WHERE approved=1";
+        console.log("filter:public");
+      }
+
+      connection.query(queryString, function(err, erows, fields) 
       {
           if (err) 
           {       
             throw err;
-            //console.log(rows);
-            res.render('events',{events: rows});          
+                     
           }
             
           else
           {
             //console.log(rows);
-            res.render('events',{events: rows});          
+            connection.query(RSOString, function(err, rows, fields) 
+            {
+              res.render("events",{events: erows,RSO : rows,uni: university.University_Name});  
+            });
+                      
           }          
       });
     },200);
@@ -56,8 +94,6 @@ router.get('/', function(req, res, next) {
 
 /* GET users listing. */
 router.get('/:eventid', function(req, res, next) {
-
-  console.log("id");
 
   console.log(req.url);
 
@@ -77,7 +113,7 @@ router.get('/:eventid', function(req, res, next) {
 
     setTimeout(function()
     { 
-      var queryComments = "SELECT * FROM comments WHERE Event_ID='"+eventid+"'";
+      var queryComments = "SELECT * FROM comments WHERE Event_ID = '"+eventid+"';";
       var coms;
 
       connection.query(queryComments, function(err, rows, fields) 
@@ -116,135 +152,6 @@ router.get('/:eventid', function(req, res, next) {
               res.render('viewevent',{events: rows,comments: coms});          
             }          
         });
-    },200);
-  }
-  else
-  {
-    console.log("user not logged in");
-    res.redirect('/');
-  }
-
-  
-  
-});
-
-
-router.get('/filter/private', function(req, res, next) {
-  console.log("oooooooooooooo");
-  console.log(req.originalUrl)
-
-  if(req.session.username)
-  {
-    
-    console.log("User: " + req.session.username + " logged in");
-
-    var queryUser = "SELECT * FROM enrolled WHERE User_ID='" + req.session.username +"';";
-
-    var university;
-
-      connection.query(queryUser, function(err, rows, fields) 
-        {
-            if (err) 
-            {       
-              throw err;
-              console.log(rows);
-            }
-              
-            else
-            {
-              university = rows[0].University_Name;
-              
-
-              console.log(rows[0].University_Name);
-            }          
-        });
-
-    
-
-    setTimeout(function()
-    {
-      var queryString = "SELECT * FROM event WHERE University_Name='"+university+"';";
-      console.log("uni: " + university);
-
-      connection.query(queryString, function(err, rows, fields) 
-      {
-          if (err) 
-          {       
-            throw err;
-            //console.log(rows);
-            res.render('events',{events: rows});          
-          }
-            
-          else
-          {
-            //console.log(rows);
-            res.render('events',{events: rows});          
-          }          
-      });
-    },200);
-  }
-  else
-  {
-    console.log("user not logged in");
-    res.redirect('/');
-  }
-
-  
-  
-});
-
-router.get('/filter/rso', function(req, res, next) {
-  console.log("oooooooooooooo");
-  console.log(req.originalUrl)
-
-  if(req.session.username)
-  {
-    
-    console.log("User: " + req.session.username + " logged in");
-
-    var queryUser = "SELECT * FROM member_of WHERE User_ID='" + req.session.username +"';";
-
-    var rso;
-
-      connection.query(queryUser, function(err, rows, fields) 
-        {
-            if (err) 
-            {       
-              throw err;
-              console.log(rows);
-            }
-              
-            else
-            {
-              rso = rows[0].RSO_ID;
-              
-
-              console.log(rows[0].RSO_ID);
-            }          
-        });
-
-    
-
-    setTimeout(function()
-    {
-      var queryString = "SELECT * FROM event WHERE RSO_ID='"+rso+"';";
-      console.log("rso_id: " + rso);
-
-      connection.query(queryString, function(err, rows, fields) 
-      {
-          if (err) 
-          {       
-            throw err;
-            //console.log(rows);
-            res.render('events',{events: rows});          
-          }
-            
-          else
-          {
-            //console.log(rows);
-            res.render('events',{events: rows});          
-          }          
-      });
     },200);
   }
   else

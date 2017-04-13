@@ -59,12 +59,39 @@ router.get('/:rsoid', function(req, res, next) {
 
   var rsoID = str.replace("/","");
 
+  var joinStatus = 1;
+
   console.log(rsoID);
 
 
 
   if(req.session.username)
   {
+    var queryMember = "SELECT * FROM member_of WHERE RSO_ID='"+rsoID+"'";
+    connection.query(queryMember, function(err, rows, fields) 
+      {
+        console.log(rows);
+          if (err) 
+          { 
+             console.log(err);
+          }
+          else
+          {
+            for(var i = 0;i < rows.length; i++)
+            {
+              if(rows[i].User_ID == req.session.username)
+              {
+                console.log("already a member");
+                joinStatus = 0;
+
+              }
+            }  
+
+            if(joinStatus == 1)            
+              console.log("join rso");  
+              
+          }
+        });
     
     console.log("User: " + req.session.username + " logged in");
     var queryString = "SELECT * FROM rso WHERE RSO_ID='"+rsoID+"'";
@@ -79,13 +106,13 @@ router.get('/:rsoid', function(req, res, next) {
           {       
             throw err;
             //console.log(rows);
-            res.render('viewRSO',{orgs: rows});          
+            res.render('viewRSO',{orgs: rows, joinStatus:joinStatus});          
           }
             
           else
           {
             //console.log(rows);
-            res.render('viewRSO',{orgs: rows});          
+            res.render('viewRSO',{orgs: rows, joinStatus:joinStatus});          
           }          
       });
     },200);

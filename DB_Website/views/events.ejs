@@ -11,7 +11,7 @@
   }
   .newEvent{
     width: 40%;
-    height: 425px;
+    height: 450px;
     min-width: 450px;
     float: left;
 
@@ -29,7 +29,7 @@
   }
   .viewEvents{    
     width: 40%;
-    height: 425px;
+    height: 450px;
     min-width: 450px;
     float: right;
 
@@ -93,7 +93,29 @@
                   <input type="text" name="phone" id="phone"><br>
                   <LABEL>Contact Email: </LABEL>
                   <input type="text" name="email" id="email"><br>
+                  <LABEL>Permission: </LABEL>
+                  <select name = "type">
+                        <option value = "pub"> Public </option>
+                        <option value = "priv"> Private </option>
+                        <option value = "org"> RSO </option>
+                    </select><br>
+                    <LABEL>Host RSO: </LABEL>
+                 <select name = "RSO">
+                    <%for(var i =0; i < RSO.length;i++){%>
 
+                        <option value= "<%=RSO[i].Name%>"><%=RSO[i].Name%>
+                      
+
+                      <% } %>
+                        
+                  </select><br>
+
+                  <% if(uni) { %> 
+                  <LABEL>University: &nbsp;</LABEL> 
+                    <select name = "uni">
+                      <option value = "<%= uni %>"> <%= uni %> </option>
+                    </select>
+                  <% } %>
               </div>
 
               <br><br>
@@ -108,19 +130,19 @@
       <center>
 
           <label class = "topT">
-            <form method = "get" action = "/events">
+            <form method = "get" action = " ">
               <input class="test" type="submit" value= "Public"name="selection">
             </form>
           </label>
 
           <label class = "topT">
-            <form method = "get" action = "filter/private">
+            <form method = "get" action = " ">
               <input class="test" type="submit" value= "Private" name="selection">
             </form>
           </label>
 
           <label class = "topT">
-            <form <form method = "get" action = "filter/rso">
+            <form <form method = "get" action = " ">
               <input class="test" type="submit" value= "RSO" name="selection">
             </form>
           </label>

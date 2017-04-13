@@ -18,10 +18,10 @@ var connection = require("express-myconnection");
 );
   //res.sendFile("../views/index.ejs");
   var queryString = "SELECT * FROM university";
-        connection.query(queryString, function(err, rows, fields) 
-        {
-          res.render("register",{message: "",uni : rows});  
-        });
+  connection.query(queryString, function(err, rows, fields) 
+  {
+    res.render("register",{message: "",uni : rows});  
+  });
 });
 
 
