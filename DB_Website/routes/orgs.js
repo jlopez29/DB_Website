@@ -20,7 +20,7 @@ router.get('/', function(req, res, next) {
   {
 
     console.log("User: " + req.session.username + " logged in");
-    var queryString = "SELECT * FROM rso";
+    var queryString = "SELECT * FROM rso AS r1 WHERE (r1.Approved = 1) AND (     (SELECT University_Name FROM enrolled WHERE User_ID='"+req.session.username+"')=(SELECT University_University_Name FROM University_has_RSO WHERE r1.RSO_ID = RSO_RSO_ID)  );";
 
     setTimeout(function()
     {

@@ -37,10 +37,14 @@ router.get('/', function(req, res, next) {
 
           console.log("Rows: " + rows);
         }          
-    });
+
+    
 
     console.log("User: " + req.session.username + " logged in");
-    var queryString = "SELECT * FROM event WHERE approved=1";
+    var queryString = "SELECT DISTINCT  * FROM event AS E1 WHERE approved=1 AND Level =0 OR (University_Name='"+university.University_Name+"' AND Level=1) OR ((SELECT RSO_RSO_ID FROM hosts WHERE E1.Event_ID = Event_ID) = ANY(SELECT RSO_ID FROM member_of WHERE User_ID = '"+req.session.username+"'));";               // check later
+    
+    console.log(queryString);
+
     var RSOString = "SELECT * FROM rso WHERE Admin = '"+req.session.username+"';";
     setTimeout(function()
     {
@@ -48,22 +52,23 @@ router.get('/', function(req, res, next) {
 
       if(req.url == "/?selection=Private")
       {
-        queryString = "SELECT * FROM event WHERE University_Name='"+university.University_Name+"';";
+         queryString = "SELECT * FROM event WHERE University_Name='"+university.University_Name+"' AND Level=1;";
         console.log("filter:private");
       }    
       else if(req.url == "/?selection=RSO")
       {
-        var queryString = "SELECT * FROM event";
+         queryString = "SELECT DISTINCT * FROM event AS E1 WHERE ((SELECT RSO_RSO_ID FROM hosts WHERE E1.Event_ID = Event_ID) = ANY(SELECT RSO_ID FROM member_of WHERE User_ID = '"+req.session.username+"')); ";
         console.log("filter:rso");
       }    
-      else
+      else if(req.url == "/?selection=Public")
       {
-        var queryString = "SELECT * FROM event WHERE approved=1";
+         queryString = "SELECT * FROM event WHERE approved=1 AND Level =0";
         console.log("filter:public");
       }
-
+      console.log(queryString+" right before connection");
       connection.query(queryString, function(err, erows, fields) 
       {
+          console.log(queryString);
           if (err) 
           {       
             throw err;
@@ -80,7 +85,7 @@ router.get('/', function(req, res, next) {
                       
           }          
       });
-    },200);
+    },200); });
   }
   else
   {

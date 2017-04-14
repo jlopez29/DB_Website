@@ -14,6 +14,7 @@ var register = require('./routes/register');
 var events = require('./routes/events');
 var orgs = require('./routes/orgs');
 var universities = require('./routes/universities');
+var superA = require('./routes/super');
 
 
 var mysql = require('mysql');
@@ -63,7 +64,7 @@ app.use('/register',register);
 app.use('/events',events);
 app.use('/orgs',orgs);
 app.use('/universities',universities);
-
+app.use('/super',superA);
 
 
 app.post('/', function(req, res, next) 
@@ -176,7 +177,11 @@ app.post('/register', function(req, res, next)
                           if(err) throw err;
                       });
                       console.log("New user added");
-                      res.redirect("events");
+                      setTimeout(function()
+  {
+                      	res.redirect("events");
+                      },200);
+                      
         }
         else if(newUser.level==2)
         {
@@ -227,23 +232,26 @@ app.post('/events', function(req, res, next)
   {
     console.log("Perm: public");
     perm = 0;
+    var addEvent1 = "INSERT INTO event (Name,Description,Time,Date,Location,Latitude,Longitude,Phone,Email,Level,approved) VALUES ('"+req.body.name+"','"+req.body.description+"','"+req.body.time+"','"+req.body.date+"','"+req.body.location+"','"+req.body.latitude+"','"+req.body.longitude+"','"+req.body.phone+"','"+req.body.email+"','"+perm+"',1);";
   }
     
   else if(req.body.type=="priv")
   {
     console.log("Perm: private");
     perm = 1;
+    var addEvent1 ="INSERT INTO event (Name,Description,Time,Date,Location,Latitude,Longitude,Phone,Email,Level,approved,University_Name) VALUES ('"+req.body.name+"','"+req.body.description+"','"+req.body.time+"','"+req.body.date+"','"+req.body.location+"','"+req.body.latitude+"','"+req.body.longitude+"','"+req.body.phone+"','"+req.body.email+"','"+perm+"',0,'"+ req.body.uni+"');";
   }
     
   else if(req.body.type=="org")
   {
     console.log("Perm: rso");
     perm = 2;
+    var addEvent1 ="INSERT INTO event (Name,Description,Time,Date,Location,Latitude,Longitude,Phone,Email,Level,approved,University_Name) VALUES ('"+req.body.name+"','"+req.body.description+"','"+req.body.time+"','"+req.body.date+"','"+req.body.location+"','"+req.body.latitude+"','"+req.body.longitude+"','"+req.body.phone+"','"+req.body.email+"','"+perm+"',0,'"+ req.body.uni+"');";
   }
     
 
   
-  var addEvent1 = "INSERT INTO event (Name,Description,Time,Date,Location,Phone,Email,Level,approved) VALUES ('"+req.body.name+"','"+req.body.description+"','"+req.body.time+"','"+req.body.date+"','"+req.body.location+"','"+req.body.phone+"','"+req.body.email+"','"+perm+"',1);";
+  
   var checkadmin = "SELECT COUNT (*) AS TOTAL FROM admin WHERE User_ID ='"+req.session.username+"';";
   var getRSO = "SELECT * FROM rso WHERE admin ='"+req.session.username+"' AND Name = '"+req.body.RSO+"';";
 
@@ -300,7 +308,7 @@ app.post('/events', function(req, res, next)
         if(perm == 0)
         {
           console.log("****************public");
-          var addEvent0 = "INSERT INTO event (Name,Description,Time,Date,Location,Phone,Email,Level,approved) VALUES ('"+req.body.name+"','"+req.body.description+"','"+req.body.time+"','"+req.body.date+"','"+req.body.location+"','"+req.body.phone+"','"+req.body.email+"','"+perm+"',0);";
+          var addEvent0 = "INSERT INTO event (Name,Description,Time,Date,Location,Latitude,Longitude,Phone,Email,Level,approved) VALUES ('"+req.body.name+"','"+req.body.description+"','"+req.body.time+"','"+req.body.date+"','"+req.body.location+"','"+req.body.latitude+"','"+req.body.longitude+"','"+req.body.phone+"','"+req.body.email+"','"+perm+"',0);";
         
 
           connection.query(addEvent0, function(err, rows, fields) 
@@ -318,7 +326,7 @@ app.post('/events', function(req, res, next)
         else if(perm == 1)
         {
           console.log("*******************uni: " + req.body.uni);
-          var addEvent0 = "INSERT INTO event (Name,Description,Time,Date,Location,Phone,Email,Level,approved,University_Name) VALUES ('"+req.body.name+"','"+req.body.description+"','"+req.body.time+"','"+req.body.date+"','"+req.body.location+"','"+req.body.phone+"','"+req.body.email+"','"+perm+"',0,'"+ req.body.uni+"');";
+          var addEvent0 = "INSERT INTO event (Name,Description,Time,Date,Location,Latitude,Longitude,Phone,Email,Level,approved,University_Name) VALUES ('"+req.body.name+"','"+req.body.description+"','"+req.body.time+"','"+req.body.date+"','"+req.body.location+"','"+req.body.latitude+"','"+req.body.longitude+"','"+req.body.phone+"','"+req.body.email+"','"+perm+"',0,'"+ req.body.uni+"');";
         
 
             connection.query(addEvent0, function(err, rows, fields) 
@@ -335,6 +343,20 @@ app.post('/events', function(req, res, next)
         }
         else if (perm == 2)
         {
+          var addEvent0 = "INSERT INTO event (Name,Description,Time,Date,Location,Latitude,Longitude,Phone,Email,Level,approved,University_Name) VALUES ('"+req.body.name+"','"+req.body.description+"','"+req.body.time+"','"+req.body.date+"','"+req.body.location+"','"+req.body.latitude+"','"+req.body.longitude+"','"+req.body.phone+"','"+req.body.email+"','"+perm+"',0,'"+ req.body.uni+"');";
+        
+
+            connection.query(addEvent0, function(err, rows, fields) 
+              {
+                if (err) 
+                {
+                  console.error(err);
+                  return;
+                }
+
+
+
+              });
           console.log("rso");
         }
           
@@ -395,6 +417,7 @@ app.post('/events/:eventid', function(req, res, next) {
       console.error(err);
       return;
     }
+    console.log(req.session.username+" is currently adding comm");
     connection.query(lastComment, function(err, lastrows, fields){
 
       comment_id = lastrows[0].Last;
@@ -438,23 +461,32 @@ app.post('/deletecomment/:id', function(req, res, next) {
 
   console.log("********* END **********");
 
-  var delEventComment = "DELETE FROM comments WHERE id =" + eventid ;
+  var delEventComment = "DELETE FROM comments WHERE id =" + eventid+";";
+  var checkowner = "SELECT * FROM comments WHERE id = "+eventid+";"
 
-  connection.query(delEventComment, function(err, rows, fields) 
-  {
-    if (err) 
-    {
-      console.error(err);
-      return;
-    }
-  });
+  connection.query(checkowner,function(err,rows,fields){
 
-  res.redirect(req.get('referer'));
+  
+  				if(req.session.username==rows[0].owner)
+  				{
+  					console.log("deleting comm");
+					  connection.query(delEventComment, function(err, rows, fields) 
+					  {
+					    if (err) 
+					    {
+					      console.error(err);
+					      return;
+					    }
+					  });
+
+					  
+				}
+				res.redirect(req.get('referer'));
+	});
 
 
 
 });
-
 
 
 
@@ -562,7 +594,16 @@ app.post('/orgs', function(req, res, next)
                              
                               console.log(LORG);
                               
+                              var uniorg = "SELECT * FROM enrolled WHERE User_ID ='"+adminUserID+"';";
 
+                              connection.query(uniorg,function(err,rows,fields)
+                              {
+                              		var insorguni = "INSERT INTO University_has_RSO (University_University_Name,RSO_RSO_ID) VALUES('"+rows[0].University_Name+"','"+LORG+"');";
+                              		connection.query(insorguni,function(err,rows,fields)
+                              		{
+
+                              		});
+                              });
 
 
                               var member;
@@ -672,7 +713,7 @@ app.post('/orgs', function(req, res, next)
 
       });
 
-  
+  	res.redirect("orgs");
 });
 
 
