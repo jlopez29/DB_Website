@@ -1,5 +1,6 @@
 <html>
     <header>
+
       <style>
 
       div .hero {
@@ -73,7 +74,15 @@
     </header>
 
     <body>
-    <center>        
+      <div id="fb-root"></div>
+      <script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=301656656914995";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));</script>
+          <center>        
 
         <div class = "aContainer" >
           <h1> <% if (message.length > 1) %>
@@ -105,9 +114,11 @@
 
         </div>        
 
-    </center>
+    <h4> Share us on FB </h4>
+
+    <div class="fb-like" data-href="https://www.facebook.com/CollegeEvents-268240593587256/" data-layout="button_count" data-action="like" data-size="large" data-show-faces="true" data-share="true"></div>
         
-        
+      </center>
     </body>
 
     
